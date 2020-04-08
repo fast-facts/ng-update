@@ -9,10 +9,10 @@ IF YOU DON'T FILL OUT THE FOLLOWING INFORMATION YOUR ISSUE MIGHT BE CLOSED WITHO
 - [ ] feature request
 ```
 
-## ngx-uptodate Version?
+## ng-update Version?
 
 <!--
-> Version of 'ngx-uptodate' your are using
+> Version of 'ng-update' your are using
 -->
 
 ## Repro steps

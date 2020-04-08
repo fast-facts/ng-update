@@ -1,6 +1,5 @@
-import * as process from 'process';
-import * as cp from 'child_process';
-import * as path from 'path';
+const cp = require('child_process');
+const path = require('path');
 
 describe('Main Tests', () => {
 
@@ -9,7 +8,7 @@ describe('Main Tests', () => {
     const ip = path.join(__dirname, '..', 'lib', 'main.js');
     const repoDir = path.join(__dirname, 'fixtures', 'fxt-toupdate');
 
-    let result;
+    let result = '';
     try {
       result = cp.execSync(`node ${ip}`, {
         env: {
@@ -19,7 +18,7 @@ describe('Main Tests', () => {
           'INPUT_BASE-BRANCH': 'master',
           'INPUT_PR-TITLE': 'chore(ng-update): update angular dependencies',
           'INPUT_PR-BODY': '[ng-update](https://github.com/itzrabbs/ng-update) 🤖 has automatically run `ng update` for you and baked this hot 🔥 PR , ready to merge.',
-          'INPUT_PR-BRANCH-PREFIX': 'chore-ng-update-',
+          'INPUT_PR-BRANCH-PREFIX': 'chore-ng-update-'
         }
       }).toString();
     }

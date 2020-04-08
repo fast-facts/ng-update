@@ -1,47 +1,43 @@
+const Helpers = require('../dist/helpers').Helpers;
+const chai = require('chai');
 
-import * as path from 'path';
-import { Helpers } from '../src/helpers';
+const expect = chai.expect;
 
 describe('Helpers Tests', () => {
-  const testRootDir = path.join(process.cwd(), '__tests__');
-
   it('isFileExists: should return "true" if file does exit on fs', async () => {
-    const filePath = path.join(testRootDir, 'fixtures', 'fxt-toupdate', 'angular.json');
-    expect(await Helpers.isFileExists(filePath)).toEqual(true);
+    expect(await Helpers.isFileExists('package.json')).to.equal(true);
   });
 
   it('isFileExists: should return "false" if file does not exist on fs', async () => {
-    const filePath = path.join(testRootDir, 'fixtures', 'fxt-not-a-ng-project', 'missing.json');
-    expect(await Helpers.isFileExists(filePath)).toEqual(false);
+    expect(await Helpers.isFileExists('missing.json')).to.equal(false);
   });
 
   it('isFolderExist: should return "false" if folder is not empty', () => {
-    const folderPath = path.join(testRootDir, 'fixtures', 'fxt-toupdate');
-    expect(Helpers.isFolderEmpty(folderPath)).toEqual(false);
+    expect(Helpers.isFolderEmpty('src')).to.equal(false);
   });
 
   it('isFolderExist: should throw error if file is not a folder', () => {
-    const notFolderPath = path.join(testRootDir, 'fixtures', 'fxt-toupdate', 'angular.json');
-    expect(() => Helpers.isFolderEmpty(notFolderPath)).toThrowError(`ENOTDIR: not a directory, scandir '${notFolderPath}'`);
+    const test = () => { try { Helpers.isFolderEmpty('package.json'); return true; } catch (ex) { null; } return false; };
+    expect(test()).to.equal(false);
   });
 
-  it('toList: should return empty array on empty value string', async () => {
-    expect(await Helpers.toList("")).toEqual([]);
+  it('toList: should return empty array on empty value string', () => {
+    expect(Helpers.toList("")).to.eql([]);
   });
 
-  it('toList: should return empty array on undefined value string', async () => {
-    expect(await Helpers.toList()).toEqual([]);
+  it('toList: should return empty array on undefined value string', () => {
+    expect(Helpers.toList()).to.eql([]);
   });
 
-  it('toList: should return a non empty array on value string separated with comma', async () => {
-    expect(await Helpers.toList('ng,update, automated-pr,  bot')).toEqual(['ng', 'update', 'automated-pr', 'bot']);
+  it('toList: should return a non empty array on value string separated with comma', () => {
+    expect(Helpers.toList('ng,update, automated-pr,  bot')).to.eql(['ng', 'update', 'automated-pr', 'bot']);
   });
 
   it('getLocalNgExecPath: should return path to local "ng" executable', () => {
-    expect(Helpers.getLocalNgExecPath('/path/to')).toEqual('/path/to/node_modules/@angular/cli/bin/ng');
+    expect(Helpers.getLocalNgExecPath('/path/to').replace(/\\/g, '/')).to.eql('/path/to/node_modules/@angular/cli/bin/ng');
   });
 
-  it('computeSha1: should return SHA1 of given object', async () => {
+  it('computeSha1: should return SHA1 of given object', () => {
     const obj = {
       "packages": [
         {
@@ -64,6 +60,6 @@ describe('Helpers Tests', () => {
       "ngUpdateErrorOutput": ""
     };
 
-    expect(await Helpers.computeSha1(obj)).toEqual('603ff3c3931dbb11cd3ce63ec0426040dd2aa0cd');
+    expect(Helpers.computeSha1(obj)).to.equal('603ff3c3931dbb11cd3ce63ec0426040dd2aa0cd');
   });
 });

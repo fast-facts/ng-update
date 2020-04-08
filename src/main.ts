@@ -13,9 +13,9 @@ async function run() {
     const repoToken = core.getInput('repo-token');
     const baseBranch = core.getInput('base-branch');
     const remoteUrl = `https://x-access-token:${repoToken}@github.com/${repo}`;
-    const repoDir = process.env.GITHUB_WORKSPACE || ''; //TODO: if empty, manually checkout project
-    const authorName = 'ngx-uptodate[bot]';
-    const authorEmail = `ngx-uptodate@users.noreply.github.com`;
+    const repoDir = process.env.GITHUB_WORKSPACE || ''; // TODO: if empty, manually checkout project
+    const authorName = 'ng-update[bot]';
+    const authorEmail = `ng-update@users.noreply.github.com`;
     const projectPath = path.normalize(path.join(repoDir, core.getInput('project-path')));
 
     const gbClient = new github.GitHub(repoToken);
@@ -29,7 +29,7 @@ async function run() {
     }
 
     if (Helpers.isFolderEmpty(repoDir)) {
-      
+
       const fetchDepth = core.getInput('fetch-depth');
       core.info(`🤖 Repo directory at: '${repoDir}' is empty. Checking out from: '${remoteUrl}'...`);
       await gitService.clone(remoteUrl, fetchDepth);
@@ -73,10 +73,10 @@ async function run() {
       await gitService.commit(prTitle);
 
       core.debug(`🤖 Pushing changes to pr branch: '${prBranch}'`);
-      await gitService.push(prBranch, remotePrBranchExists); // will updated existing pr 
+      await gitService.push(prBranch, remotePrBranchExists); // will updated existing pr
 
       core.debug(`🤖 Checking for existing open PR from '${prBranch}' to '${baseBranch}'...`);
-      let prNumber = await gbService.getOpenPR(baseBranch,prBranch);
+      let prNumber = await gbService.getOpenPR(baseBranch, prBranch);
 
       if (prNumber) {
         core.debug(`🤖 PR from branch '${prBranch}' to '${baseBranch}' already existed (#${prNumber}). It's been simply updated.`);
@@ -89,12 +89,12 @@ async function run() {
         core.setOutput('pr-number', `'${prNumber}'`);
     }
     else
-      core.info(`🤖 Running 'ng update' has produced no change in your code, you must be up-to-date already 👏!`)
+      core.info(`🤖 Running 'ng update' has produced no change in your code, you must be up-to-date already 👏!`);
 
-    const deleteClosedPRBranches = core.getInput('delete-closed-pr-branches') == 'true';
-    if(deleteClosedPRBranches){
-        core.info(`🤖 Deleting branches related to closed PRs created by this action...`)
-        await gbService.deleteClosedPRsBranches(baseBranch,prBranchPrefix, prTitle);
+    const deleteClosedPRBranches = core.getInput('delete-closed-pr-branches') === 'true';
+    if (deleteClosedPRBranches) {
+      core.info(`🤖 Deleting branches related to closed PRs created by this action...`);
+      await gbService.deleteClosedPRsBranches(baseBranch, prBranchPrefix, prTitle);
     }
     core.setOutput('ng-update-result', JSON.stringify(ngUpdateResult.packages));
   } catch (error) {
@@ -102,4 +102,5 @@ async function run() {
   }
 }
 
+// tslint:disable-next-line: no-floating-promises
 run();

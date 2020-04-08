@@ -1,4 +1,4 @@
-name: ngx-uptodate
+name: ng-update
 description: Keeps your Angular CLI projects up-to-date via automated pull requests based on `ng update`
 author: Tine Kondo
 inputs:
@@ -31,7 +31,7 @@ inputs:
   pr-body:
     description: The body of the PR
     default: |
-      [ngx-uptodate](https://github.com/tinesoft/ngx-uptodate) 🤖 has automatically run `ng update` for you and baked this hot 🔥 PR , ready to merge.
+      [ng-update](https://github.com/itzrabbs/ng-update) 🤖 has automatically run `ng update` for you and baked this hot 🔥 PR , ready to merge.
 
       <details>
         <summary>Ng Update Output:</summary>

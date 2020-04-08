@@ -1,71 +1,47 @@
 {
-  "name": "ngx-uptodate",
-  "version": "0.0.0-development",
+  "name": "ng-update",
+  "version": "1.0.0",
   "description": "a Github action that keeps your Angular CLI-based projects up-to-date with @angular via automated pull requests.",
   "main": "lib/main.js",
   "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
     "build": "tsc",
-    "test": "jest",
-    "cover": "jest --coverage",
-    "semantic-release": "semantic-release",
-    "update": "npx npm-check-updates -u && npm install && npm audit"
+    "pack": "ncc build",
+    "test": "mocha --timeout 30000",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tinesoft/ngx-uptodate.git"
+    "url": "git+https://github.com/itzrabbs/ng-update.git"
   },
-  "homepage": "https://github.com/tinesoft/ngx-uptodate",
-  "bugs": "https://github.com/tinesoft/ngx-uptodate/issues",
+  "homepage": "https://github.com/itzrabbs/ng-update",
+  "bugs": "https://github.com/itzrabbs/ng-update/issues",
   "keywords": [
     "actions",
     "angular",
     "ng",
     "update"
   ],
-  "author": "Tine Kondo",
+  "author": "ItzRabbs",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.0",
     "@actions/exec": "^1.0.1",
     "@actions/github": "^1.1.0",
     "@actions/io": "^1.0.1",
-    "object-hash": "^2.0.0",
-    "simple-git": "^1.126.0"
+    "object-hash": "^2.0.3",
+    "rimraf": "^3.0.2",
+    "simple-git": "^1.132.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/plugin-transform-async-to-generator": "^7.5.0",
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/register": "^7.6.2",
-    "@babel/runtime": "^7.6.3",
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
     "@types/jest": "^24.0.21",
     "@types/node": "^12.12.5",
-    "del": "^5.1.0",
-    "glob": "^7.1.5",
-    "gulp": "^4.0.2",
-    "husky": "^3.0.9",
-    "jest": "^24.9.0",
-    "jest-circus": "^24.9.0",
-    "semantic-release": "^15.13.30",
-    "ts-jest": "^24.1.0",
-    "typescript": "^3.6.4"
-  },
-  "babel": {
-    "presets": [
-      "@babel/env"
-    ],
-    "plugins": [
-      "@babel/transform-runtime",
-      "@babel/transform-async-to-generator"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
+    "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "mocha": "^7.1.1",
+    "tslint": "^6.1.1",
+    "typescript": "^3.8.3"
   },
   "release": {
     "plugins": [

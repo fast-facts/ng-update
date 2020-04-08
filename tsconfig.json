@@ -27,9 +27,12 @@
     "strict": true,
     "strictBindCallApply": false,
   },
+  "include": [
+    "./src/*.ts"
+  ],
   "exclude": [
     "node_modules",
-    "**/*.test.ts",
-    "__tests__/**/*"
+    "dist",
+    "test"
   ]
 }

@@ -1,9 +1,0 @@
-{
-  "files.exclude": {
-    "**/.git": true,
-    "**/node_modules": true,
-    "**/e2e": true,
-    "package-lock.json": true
-  },
-  "editor.formatOnSave": true
-}

@@ -59,7 +59,7 @@ outputs:
     description: The result of this action
 runs:
   using: node12
-  main: lib/main.js
+  main: dist/main.js
 branding:
   icon: 'arrow-up'
   color: 'red'

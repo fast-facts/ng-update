@@ -12,7 +12,7 @@ describe('NgUpdateService Tests', () => {
   before(async () => {
     fs.mkdirSync(demoFolder);
     fs.writeFileSync(path.join(demoFolder, '.gitignore'), '/node_modules');
-    const options = { cwd: demoFolder };
+    const options = { cwd: demoFolder, silent: false };
 
     await exec.exec('git', ['init'], options);
     await exec.exec('git', ['config', '--global', 'user.email', '"you@example.com"'], options);
@@ -40,7 +40,7 @@ describe('NgUpdateService Tests', () => {
     const result = await ngUpdateService.runUpdate();
 
     expect(result.packages.map(p => p.name)).to.eql([]);
-    expect(result.ngUpdateOutput).toContain(NgUpdateService.NO_UPDATE_FOUND);
+    expect(result.ngUpdateOutput).to.contain(NgUpdateService.NO_UPDATE_FOUND);
   });
 
 });

@@ -12,13 +12,18 @@ describe('NgUpdateService Tests', () => {
   before(async () => {
     fs.mkdirSync(demoFolder);
     const options = { cwd: demoFolder };
+
     await exec.exec('git', ['init'], options);
+    await exec.exec('git', ['config', '--global', 'user.email', '"you@example.com"'], options);
+    await exec.exec('git', ['config', '--global', 'user.name', '"Your Name"'], options);
+
     await exec.exec('npm', ['init', '-f'], options);
     await exec.exec('npm', ['install', '--save', '@angular/cli@9.0.0'], options);
+
     await exec.exec('git', ['add', '-A'], options);
     await exec.exec('git', ['commit', '-m', '"init commit"'], options);
 
-    console.log(`Created new folder with git, npm and @angular/cli@9.0.0 initialized: '${demoFolder}'`);
+    console.log(`Created new folder with @angular/cli@9.0.0 installed: '${demoFolder}'`);
   });
 
   it('runUpdate: should return packages to update if project is outdated', async () => {

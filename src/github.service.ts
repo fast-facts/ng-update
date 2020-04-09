@@ -1,7 +1,6 @@
 import * as core from '@actions/core';
 import { GitHub } from '@actions/github';
 import { Context } from '@actions/github/lib/context';
-import { stringLiteral } from '@babel/types';
 
 export class GithubService {
 
@@ -15,7 +14,7 @@ export class GithubService {
   }
 
   public shouldIgnoreEvent(baseBranch: string): boolean {
-    if (this.context.eventName == "push") {
+    if (this.context.eventName === "push") {
       if (this.context.ref !== `refs/heads/${baseBranch}`) {
         core.debug(`🤖 Ignoring events not originating from base branch '${baseBranch}' (was '${this.context.ref}').`);
         return true;
@@ -25,7 +24,7 @@ export class GithubService {
       // not to commit the changes. They close the PR and delete the branch. This creates a
       // "push" event that we want to ignore, otherwise it will create another branch and PR on
       // the same commit.
-      const deleted = this.context.payload['deleted'];
+      const deleted = this.context.payload.deleted;
       if (deleted === 'true') {
         core.debug('🤖 Ignoring delete branch event.');
         return true;
@@ -44,13 +43,10 @@ export class GithubService {
       head
     });
 
-    for (let i = 0; i < res.data.length; i++)
-      return res.data[i].number;
-
-    return null;
+    return res.data[0]?.number;
   }
 
-  public async getClosedPRsBranches(base: string, title:string, branchSuffix:string): Promise<string[]> {
+  public async getClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<string[]> {
 
     const res = await this.gbClient.pulls.list({
       owner: this.owner,
@@ -61,24 +57,24 @@ export class GithubService {
 
     return res.data//
       .filter(pr => !pr.locked)//
-      .filter(pr => !pr.merged_at )//
-      .filter(pr => pr.head.ref.indexOf(branchSuffix)>0 || pr.title == title )//
+      .filter(pr => !pr.merged_at)//
+      .filter(pr => pr.head.ref.indexOf(branchSuffix) > 0 || pr.title === title)//
       .map(pr => pr.head.ref);
   }
 
-  public async deleteClosedPRsBranches(base: string, title:string, branchSuffix:string): Promise<void> {
-   const branches = await this.getClosedPRsBranches(base, title, branchSuffix);
-   for(let branch in branches){
-      let res = await this.gbClient.git.deleteRef({
-                  owner: this.owner,
-                  repo: this.repo,
-                  ref: branch
-                });
-      if(res.status == 204)
+  public async deleteClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<void> {
+    const branches = await this.getClosedPRsBranches(base, title, branchSuffix);
+    for (const branch of Object.keys(branches)) {
+      const res = await this.gbClient.git.deleteRef({
+        owner: this.owner,
+        repo: this.repo,
+        ref: branch
+      });
+      if (res.status === 204)
         core.debug(`🤖 >> Branch '${branch}' has been deleted`);
-      else if(res.status != 422) //422 = branch already gone
+      else if (res.status !== 422) // 422 = branch already gone
         core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
-   }
+    }
   }
 
 
@@ -114,7 +110,7 @@ export class GithubService {
 
       return prNumber;
     } catch (error) {
-      core.error(`🤖  Create PR on [${this.repoPath}] from ${head} failed`)
+      core.error(`🤖  Create PR on [${this.repoPath}] from ${head} failed`);
       core.setFailed(error);
       return null;
     }

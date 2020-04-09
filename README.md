@@ -1,9 +1,9 @@
 
 <p align="center">
-  <img height="256px" width="256px" style="text-align: center;" src="https://cdn.jsdelivr.net/gh/tinesoft/ngx-uptodate@develop/assets/logo.svg">
+  <img height="256px" width="256px" style="text-align: center;" src="https://cdn.jsdelivr.net/gh/itzrabbs/ng-update@develop/assets/logo.svg">
 </p>
 
-# ngx-uptodate
+# ng-update
 
 A [Github Action](https://github.com/features/actions) that keeps your Angular CLI-based projects up-to-date via automated pull requests.
 
@@ -18,7 +18,7 @@ You just have to merge the created PR back into your codebase, once ready.
 
 ## Usage
 
-To get started, create a workflow under `.github/workflows/` folder (eg: `.github/workflows/ngx-uptodate.yml`), with the following content:
+To get started, create a workflow under `.github/workflows/` folder (eg: `.github/workflows/ng-update.yml`), with the following content:
 
 ``` yaml
 name: "Update Angular Action"
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Updating ng dependencies # the magic happens here !
-        uses: tinesoft/ngx-uptodate@master
+        uses: itzrabbs/ng-update@master
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -41,7 +41,7 @@ See [Creating a Workflow file](https://help.github.com/en/github/automating-your
 
 This is what the created PR will look like :
 
-![Example of a PR created by the ngx-uptodate action](https://cdn.jsdelivr.net/gh/tinesoft/ngx-uptodate@develop/assets/ngx-uptodate-pr-dark.png "Example of a PR created by the ngx-uptodate action")
+![Example of a PR created by the ng-update action](https://cdn.jsdelivr.net/gh/itzrabbs/ng-update@develop/assets/ng-update-pr-dark.png "Example of a PR created by the ng-update action")
 
 ## Outputs
 

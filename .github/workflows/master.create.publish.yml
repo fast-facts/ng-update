@@ -16,7 +16,7 @@ jobs:
       - name: Publish Action
         uses: technote-space/release-github-actions@v1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           COMMIT_NAME: ng-update[bot]
           COMMIT_EMAIL: ng-update@users.noreply.github.com
           COMMIT_MESSAGE: "chore(release): publishing new version from '${{github.ref}}'"

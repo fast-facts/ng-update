@@ -21,8 +21,8 @@ jobs:
       - run: npm test
 
       - name: Semantic Releasing
-        env: # use a non github action token, to allow triggering other workflows (publish)
-          GITHUB_TOKEN: ${{ secrets.SEMREL_GH_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
         
       - name: Publishing Action

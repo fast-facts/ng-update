@@ -11,7 +11,7 @@ describe('NgUpdateService Tests', () => {
 
   before(async () => {
     fs.mkdirSync(demoFolder);
-    const options = { cwd: demoFolder, silent: true };
+    const options = { cwd: demoFolder };
     await exec.exec('git', ['init'], options);
     await exec.exec('npm', ['init', '-f'], options);
     await exec.exec('npm', ['install', '--save', '@angular/cli@9.0.0'], options);

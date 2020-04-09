@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 3
 
-      - name: Publishing Action
+      - name: Publish Action
         uses: technote-space/release-github-actions@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

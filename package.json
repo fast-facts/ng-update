@@ -9,6 +9,7 @@
     "build": "tsc",
     "pack": "ncc build",
     "test": "mocha --timeout 300000",
+    "posttest": "rimraf demo",
     "semantic-release": "semantic-release"
   },
   "repository": {

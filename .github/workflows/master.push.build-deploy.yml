@@ -1,4 +1,4 @@
-name: Build/Deploy on Push
+name: Build/Release on Push
 
 on:
   push:
@@ -24,14 +24,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
-        
-      - name: Publishing Action
-        uses: technote-space/release-github-actions@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMIT_NAME: ng-update[bot]
-          COMMIT_EMAIL: ng-update@users.noreply.github.com
-          COMMIT_MESSAGE: "chore(release): publishing new version from '${{github.ref}}'"
-          OUTPUT_BUILD_INFO_FILENAME: build.json
-          BRANCH_NAME: master
-          CLEAN_TARGETS: ".[!.]*,assets,demo,src,test,utility,*lint*,*.js,*.ts,*.json,*.lock,_config.yml"

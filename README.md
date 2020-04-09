@@ -39,10 +39,6 @@ jobs:
 See [action.yml](action.yml) for complete list of options you can customize.
 See [Creating a Workflow file](https://help.github.com/en/github/automating-your-workflow-with-github-actions/configuring-a-workflow#creating-a-workflow-file) for more informations about writing workflows.
 
-This is what the created PR will look like :
-
-![Example of a PR created by the ng-update action](https://cdn.jsdelivr.net/gh/itzrabbs/ng-update@develop/assets/ng-update-pr-dark.png "Example of a PR created by the ng-update action")
-
 ## Outputs
 
 When the action successfully runs, it produces the following outputs, that you can use them in further steps in your workflow:

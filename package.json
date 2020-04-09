@@ -8,7 +8,6 @@
     "prebuild": "npm run clean",
     "build": "tsc",
     "test": "mocha --timeout 300000",
-    "posttest": "rimraf .github assets demo src test utlitity *lint*",
     "semantic-release": "semantic-release"
   },
   "repository": {

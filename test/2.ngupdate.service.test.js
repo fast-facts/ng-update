@@ -11,6 +11,7 @@ describe('NgUpdateService Tests', () => {
 
   before(async () => {
     fs.mkdirSync(demoFolder);
+    fs.writeFileSync(path.join(demoFolder, '.gitignore'), '/node_modules');
     const options = { cwd: demoFolder };
 
     await exec.exec('git', ['init'], options);
@@ -31,8 +32,7 @@ describe('NgUpdateService Tests', () => {
     const result = await ngUpdateService.runUpdate();
 
     expect(result.packages.map(p => p.name)).to.eql(['@angular/cli']);
-    expect(result.ngUpdateOutput).toContain(NgUpdateService.UPDATE_FOUND);
-    expect(result.ngUpdateErrorOutput).toBeFalsy();
+    expect(result.ngUpdateOutput).to.contain(NgUpdateService.UPDATE_FOUND);
   });
 
   it('runUpdate: should return no packages to update if project is up-to-date', async () => {
@@ -41,7 +41,6 @@ describe('NgUpdateService Tests', () => {
 
     expect(result.packages.map(p => p.name)).to.eql([]);
     expect(result.ngUpdateOutput).toContain(NgUpdateService.NO_UPDATE_FOUND);
-    expect(result.ngUpdateErrorOutput).toBeFalsy();
   });
 
 });

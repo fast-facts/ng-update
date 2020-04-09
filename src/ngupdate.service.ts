@@ -14,8 +14,8 @@ export interface NgUpdateResult {
 
 export class NgUpdateService {
 
-  public static readonly NO_UPDATE_FOUND = '    We analyzed your package.json and everything seems to be in order. Good work!';
-  public static readonly UPDATE_FOUND = '    We analyzed your package.json, there are some packages to update:';
+  public static readonly NO_UPDATE_FOUND = 'We analyzed your package.json and everything seems to be in order. Good work!';
+  public static readonly UPDATE_FOUND = 'We analyzed your package.json, there are some packages to update:';
 
   constructor(private projectPath: string) { }
 

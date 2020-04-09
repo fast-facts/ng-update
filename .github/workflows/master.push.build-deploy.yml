@@ -19,23 +19,23 @@ jobs:
       - run: npm install
       - run: npm run build --if-present
       - run: npm test
-
-      - name: Semantic Releasing
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
         
-#       - name: Publishing Action
-#         uses: technote-space/release-github-actions@v1
-#         with:
+      - name: Publishing Action
+        uses: technote-space/release-github-actions@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_NAME: ng-update[bot]
+          COMMIT_EMAIL: ng-update@users.noreply.github.com
+          COMMIT_MESSAGE: "chore(release): publishing new version from '${{github.ref}}'"
+          CREATE_MAJOR_VERSION_TAG: true
+          CREATE_MINOR_VERSION_TAG: true
+          CREATE_PATCH_VERSION_TAG: true
+          OUTPUT_BUILD_INFO_FILENAME: build.json
+          BRANCH_NAME: releases
+          CLEAN_TARGETS: ".[!.]*,assets,demo,src,test,utility,*.js,*.ts,*.json,*.lock,_config.yml"
+          TEST_TAG_PREFIX: test/
+
+#       - name: Semantic Releasing
+#         env:
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#           COMMIT_NAME: ng-update[bot]
-#           COMMIT_EMAIL: ng-update@users.noreply.github.com
-#           COMMIT_MESSAGE: "chore(release): publishing new version from '${{github.ref}}'"
-#           CREATE_MAJOR_VERSION_TAG: true
-#           CREATE_MINOR_VERSION_TAG: true
-#           CREATE_PATCH_VERSION_TAG: true
-#           OUTPUT_BUILD_INFO_FILENAME: build.json
-#           BRANCH_NAME: releases
-#           CLEAN_TARGETS: ".[!.]*,assets,demo,src,test,utility,*.js,*.ts,*.json,*.lock,_config.yml"
-#           TEST_TAG_PREFIX: test/
+#         run: npx semantic-release

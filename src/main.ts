@@ -54,7 +54,7 @@ async function run() {
     const prTitle = core.getInput('pr-title');
     const prBranchPrefix = core.getInput('pr-branch-prefix');
 
-    if (gitService.hasChanges()) {
+    if (ngUpdateResult.packages.length > 0 && gitService.hasChanges()) {
       const prBody = Helpers.getPrBody(core.getInput('pr-body'), ngUpdateResult.ngUpdateOutput);
       const prLabels = Helpers.getPrAssignees(core.getInput('pr-labels'));
       const prAssignees = Helpers.getPrAssignees(core.getInput('pr-assignees'));

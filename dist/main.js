@@ -45,14 +45,14 @@ async function run() {
         const ngUpdateResult = await ngService.runUpdate();
         const prTitle = core.getInput('pr-title');
         const prBranchPrefix = core.getInput('pr-branch-prefix');
-        if (ngUpdateResult.packages.length > 0 && gitService.hasChanges()) {
+        if (ngUpdateResult.packages.length > 0 && await gitService.hasChanges()) {
             const prBody = helpers_1.Helpers.getPrBody(core.getInput('pr-body'), ngUpdateResult.ngUpdateOutput);
             const prLabels = helpers_1.Helpers.getPrAssignees(core.getInput('pr-labels'));
             const prAssignees = helpers_1.Helpers.getPrAssignees(core.getInput('pr-assignees'));
             const prReviewers = helpers_1.Helpers.getPrReviewers(core.getInput('pr-reviewers'));
             const ngUpdateSha1 = await gitService.shortenSha1(helpers_1.Helpers.computeSha1(ngUpdateResult));
             const prBranch = `${prBranchPrefix.substring(0, prBranchPrefix.lastIndexOf('-'))}-${ngUpdateSha1}`;
-            core.debug(`🤖 PR branch will be : ${prBranch}`);
+            core.debug(`🤖 PR branch will be: ${prBranch}`);
             const remotePrBranchExists = await gitService.remoteBranchExists(prBranch);
             core.debug(`🤖 Moving git head to pr branch: ${prBranch}`);
             await gitService.cleanCheckoutBranch(prBranch, baseBranch, remotePrBranchExists);
@@ -72,8 +72,9 @@ async function run() {
             if (prNumber)
                 core.setOutput('pr-number', `'${prNumber}'`);
         }
-        else
+        else {
             core.info(`🤖 Running 'ng update' has produced no change in your code, you must be up-to-date already 👏!`);
+        }
         const deleteClosedPRBranches = core.getInput('delete-closed-pr-branches') === 'true';
         if (deleteClosedPRBranches) {
             core.info(`🤖 Deleting branches related to closed PRs created by this action...`);

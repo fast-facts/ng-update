@@ -7,7 +7,8 @@ const github_service_1 = require("./github.service");
 const ngupdate_service_1 = require("./ngupdate.service");
 const git_service_1 = require("./git.service");
 const helpers_1 = require("./helpers");
-async function run() {
+// tslint:disable-next-line: no-floating-promises
+(async () => {
     try {
         const context = github.context;
         const repo = `${context.repo.owner}/${context.repo.repo}`;
@@ -31,61 +32,69 @@ async function run() {
             core.info(`🤖 Repo directory at: '${repoDir}' is empty. Checking out from: '${remoteUrl}'...`);
             await gitService.clone(remoteUrl, fetchDepth);
         }
-        core.debug(`🤖 Intializing git config at: '${repoDir}'`);
-        await gitService.init(remoteUrl, authorName, authorEmail);
-        core.debug(`🤖 Moving git head to base branch: ${baseBranch}`);
-        await gitService.checkoutBranch(baseBranch);
+        await core.group(`🤖 Intializing git config at: '${repoDir}'`, async () => {
+            await gitService.init(remoteUrl, authorName, authorEmail);
+        });
+        await core.group(`🤖 Moving git head to base branch: ${baseBranch}`, async () => {
+            await gitService.checkoutBranch(baseBranch);
+        });
         const ngFilePath = path.join(projectPath, 'angular.json');
         const isNgProject = await helpers_1.Helpers.isFileExists(ngFilePath);
         if (!isNgProject) {
             core.warning(`🤖 Could not detect an Angular CLI project under "${projectPath}", exiting`);
             return;
         }
-        core.info(`🤖 Prerequisites are done. Trying to 'ng update' your code now...`);
-        const ngUpdateResult = await ngService.runUpdate();
         const prTitle = core.getInput('pr-title');
         const prBranchPrefix = core.getInput('pr-branch-prefix');
-        if (ngUpdateResult.packages.length > 0 && await gitService.hasChanges()) {
-            const prBody = helpers_1.Helpers.getPrBody(core.getInput('pr-body'), ngUpdateResult.ngUpdateOutput);
-            const prLabels = helpers_1.Helpers.getPrAssignees(core.getInput('pr-labels'));
-            const prAssignees = helpers_1.Helpers.getPrAssignees(core.getInput('pr-assignees'));
-            const prReviewers = helpers_1.Helpers.getPrReviewers(core.getInput('pr-reviewers'));
-            const ngUpdateSha1 = await gitService.shortenSha1(helpers_1.Helpers.computeSha1(ngUpdateResult));
-            const prBranch = `${prBranchPrefix.substring(0, prBranchPrefix.lastIndexOf('-'))}-${ngUpdateSha1}`;
-            core.debug(`🤖 PR branch will be: ${prBranch}`);
-            const remotePrBranchExists = await gitService.remoteBranchExists(prBranch);
-            core.debug(`🤖 Moving git head to pr branch: ${prBranch}`);
-            await gitService.cleanCheckoutBranch(prBranch, baseBranch, remotePrBranchExists);
-            core.debug(`🤖 Committing changes to branch: '${prBranch}'`);
-            await gitService.commit(prTitle);
-            core.debug(`🤖 Pushing changes to pr branch: '${prBranch}'`);
-            await gitService.push(prBranch, remotePrBranchExists); // will updated existing pr
-            core.debug(`🤖 Checking for existing open PR from '${prBranch}' to '${baseBranch}'...`);
-            let prNumber = await gbService.getOpenPR(baseBranch, prBranch);
-            if (prNumber) {
-                core.debug(`🤖 PR from branch '${prBranch}' to '${baseBranch}' already existed (#${prNumber}). It's been simply updated.`);
+        await core.group(`🤖 Prerequisites are done. Trying to 'ng update' your code now...`, async () => {
+            const ngUpdateResult = await ngService.runUpdate();
+            core.info(`------- ngUpdateResult.packages.length: ${ngUpdateResult.packages.length}`);
+            core.info(`------- gitService.hasChanges(): ${await gitService.hasChanges()}`);
+            if (ngUpdateResult.packages.length > 0 && await gitService.hasChanges()) {
+                const prBody = helpers_1.Helpers.getPrBody(core.getInput('pr-body'), ngUpdateResult.ngUpdateOutput);
+                const prLabels = helpers_1.Helpers.getPrAssignees(core.getInput('pr-labels'));
+                const prAssignees = helpers_1.Helpers.getPrAssignees(core.getInput('pr-assignees'));
+                const prReviewers = helpers_1.Helpers.getPrReviewers(core.getInput('pr-reviewers'));
+                const ngUpdateSha1 = await gitService.shortenSha1(helpers_1.Helpers.computeSha1(ngUpdateResult));
+                const prBranch = `${prBranchPrefix.substring(0, prBranchPrefix.lastIndexOf('-'))}-${ngUpdateSha1}`;
+                core.info(`🤖 PR branch will be: ${prBranch}`);
+                const remotePrBranchExists = await gitService.remoteBranchExists(prBranch);
+                await core.group(`🤖 Moving git head to pr branch: ${prBranch}`, async () => {
+                    await gitService.cleanCheckoutBranch(prBranch, baseBranch, remotePrBranchExists);
+                });
+                await core.group(`🤖 Committing changes to branch: '${prBranch}'`, async () => {
+                    await gitService.commit(prTitle);
+                });
+                await core.group(`🤖 Pushing changes to pr branch: '${prBranch}'`, async () => {
+                    await gitService.push(prBranch, remotePrBranchExists); // will updated existing pr
+                });
+                let prNumber = await gbService.getOpenPR(baseBranch, prBranch);
+                if (prNumber) {
+                    core.info(`🤖 PR from branch '${prBranch}' to '${baseBranch}' already existed (#${prNumber}). It's been simply updated.`);
+                }
+                else {
+                    await core.group(`🤖 Creating PR from branch '${prBranch}' to '${baseBranch}'`, async () => {
+                        prNumber = await gbService.createPR(baseBranch, prBranch, prTitle, prBody, prAssignees, prReviewers, prLabels);
+                    });
+                }
+                if (prNumber) {
+                    core.setOutput('pr-number', `'${prNumber}'`);
+                }
             }
             else {
-                core.debug(`🤖 Creating PR from branch '${prBranch}' to '${baseBranch}'`);
-                prNumber = await gbService.createPR(baseBranch, prBranch, prTitle, prBody, prAssignees, prReviewers, prLabels);
+                core.info(`🤖 Running 'ng update' has produced no change in your code, you must be up-to-date already 👏!`);
             }
-            if (prNumber)
-                core.setOutput('pr-number', `'${prNumber}'`);
-        }
-        else {
-            core.info(`🤖 Running 'ng update' has produced no change in your code, you must be up-to-date already 👏!`);
-        }
+            core.setOutput('ng-update-result', JSON.stringify(ngUpdateResult.packages));
+        });
         const deleteClosedPRBranches = core.getInput('delete-closed-pr-branches') === 'true';
         if (deleteClosedPRBranches) {
-            core.info(`🤖 Deleting branches related to closed PRs created by this action...`);
-            await gbService.deleteClosedPRsBranches(baseBranch, prBranchPrefix, prTitle);
+            await core.group(`🤖 Deleting branches related to closed PRs created by this action...`, async () => {
+                await gbService.deleteClosedPRsBranches(baseBranch, prBranchPrefix, prTitle);
+            });
         }
-        core.setOutput('ng-update-result', JSON.stringify(ngUpdateResult.packages));
     }
     catch (error) {
         core.setFailed(error.message);
     }
-}
-// tslint:disable-next-line: no-floating-promises
-run();
+})();
 //# sourceMappingURL=main.js.map

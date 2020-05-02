@@ -1,8 +1,4 @@
 
-<p align="center">
-  <img height="256px" width="256px" style="text-align: center;" src="https://cdn.jsdelivr.net/gh/itzrabbs/ng-update@develop/assets/logo.svg">
-</p>
-
 # ng-update
 
 A [Github Action](https://github.com/features/actions) that keeps your Angular CLI-based projects up-to-date via automated pull requests.
@@ -38,4 +34,4 @@ See [Creating a Workflow file](https://help.github.com/en/github/automating-your
 When the action successfully runs, it produces the following outputs, that you can use them in further steps in your workflow:
 
 * `pr-number`: the number of the PR that have been created on Github
-*  `ng-update-result` : an array of [PackageToUpdate](src/ngupdate.service.ts#L7), that summarizes the packages that have been updated.
+* `ng-update-result` : an array of [PackageToUpdate](src/ngupdate.service.ts#L7), that summarizes the packages that have been updated.

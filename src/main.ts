@@ -30,13 +30,12 @@ import { Helpers } from './helpers';
     }
 
     if (Helpers.isFolderEmpty(repoDir)) {
-
       const fetchDepth = core.getInput('fetch-depth');
       core.info(`🤖 Repo directory at: '${repoDir}' is empty. Checking out from: '${remoteUrl}'...`);
       await gitService.clone(remoteUrl, fetchDepth);
     }
 
-    await core.group(`🤖 Intializing git config at: '${repoDir}'`, async () => {
+    await core.group(`🤖 Initializing git config at: '${repoDir}'`, async () => {
       await gitService.init(remoteUrl, authorName, authorEmail);
     });
 
@@ -57,9 +56,6 @@ import { Helpers } from './helpers';
     await core.group(`🤖 Prerequisites are done. Trying to 'ng update' your code now...`, async () => {
       const ngUpdateResult = await ngService.runUpdate();
 
-      core.info(`------- ngUpdateResult.packages.length: ${ngUpdateResult.packages.length}`);
-      core.info(`------- gitService.hasChanges(): ${await gitService.hasChanges()}`);
-
       if (ngUpdateResult.packages.length > 0 && await gitService.hasChanges()) {
         const prBody = Helpers.getPrBody(core.getInput('pr-body'), ngUpdateResult.ngUpdateOutput);
         const prLabels = Helpers.getPrAssignees(core.getInput('pr-labels'));
@@ -76,11 +72,11 @@ import { Helpers } from './helpers';
           await gitService.cleanCheckoutBranch(prBranch, baseBranch, remotePrBranchExists);
         });
 
-        await core.group(`🤖 Committing changes to branch: '${prBranch}'`, async () => {
+        await core.group(`🤖 Committing changes to branch: ${prBranch}`, async () => {
           await gitService.commit(prTitle);
         });
 
-        await core.group(`🤖 Pushing changes to pr branch: '${prBranch}'`, async () => {
+        await core.group(`🤖 Pushing changes to pr branch: ${prBranch}`, async () => {
           await gitService.push(prBranch, remotePrBranchExists); // will updated existing pr
         });
 

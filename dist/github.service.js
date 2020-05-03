@@ -12,7 +12,7 @@ class GithubService {
     shouldIgnoreEvent(baseBranch) {
         if (this.context.eventName === "push") {
             if (this.context.ref !== `refs/heads/${baseBranch}`) {
-                core.debug(`🤖 Ignoring events not originating from base branch '${baseBranch}' (was '${this.context.ref}').`);
+                core.info(`🤖 Ignoring events not originating from base branch '${baseBranch}' (was '${this.context.ref}').`);
                 return true;
             }
             // Ignore push events on deleted branches
@@ -22,7 +22,7 @@ class GithubService {
             // the same commit.
             const deleted = this.context.payload.deleted;
             if (deleted === 'true') {
-                core.debug('🤖 Ignoring delete branch event.');
+                core.info('🤖 Ignoring delete branch event.');
                 return true;
             }
         }
@@ -37,6 +37,12 @@ class GithubService {
             base,
             head
         });
+        if (res.data.length > 1) {
+            core.warning(`🤖 Multiple pull requests found:`);
+            res.data.forEach(pr => {
+                core.info(` ---- ${pr.title}`);
+            });
+        }
         return (_a = res.data[0]) === null || _a === void 0 ? void 0 : _a.number;
     }
     async getClosedPRsBranches(base, title, branchSuffix) {
@@ -61,7 +67,7 @@ class GithubService {
                 ref: branch
             });
             if (res.status === 204)
-                core.debug(`🤖 >> Branch '${branch}' has been deleted`);
+                core.info(`🤖 >> Branch '${branch}' has been deleted`);
             else if (res.status !== 422) // 422 = branch already gone
                 core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
         }
@@ -78,7 +84,7 @@ class GithubService {
                 body
             });
             const prNumber = createdPR.data.number;
-            core.debug(`🤖 Created pull request [${this.repoPath}]#${prNumber}`);
+            core.info(`🤖 Created pull request [${this.repoPath}]#${prNumber}`);
             await this.gbClient.issues.update({
                 owner: this.owner,
                 repo: this.repo,
@@ -88,7 +94,7 @@ class GithubService {
                 body
             });
             await this.addReviewers(prNumber, reviewers);
-            core.debug(`🤖 Updated pull request [${this.repoPath}]#${prNumber}`);
+            core.info(`🤖 Updated pull request [${this.repoPath}]#${prNumber}`);
             return prNumber;
         }
         catch (error) {

@@ -39,18 +39,19 @@ export class GithubService {
       owner: this.owner,
       repo: this.repo,
       state: 'open',
-      base,
-      head
+      base
     });
 
     if (res.data.length > 1) {
       core.warning(`🤖 Multiple pull requests found:`);
       res.data.forEach(pr => {
-        core.info(` ---- ${pr.title}`);
+        core.info(` ---- ${pr.title} - ${pr.head.ref}`);
       });
     }
 
-    return res.data[0]?.number;
+    return res.data//
+      .filter(pr => pr.head.ref === head)//
+    [0]?.number;
   }
 
   public async getClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<string[]> {

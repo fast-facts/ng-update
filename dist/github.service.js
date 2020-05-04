@@ -34,16 +34,17 @@ class GithubService {
             owner: this.owner,
             repo: this.repo,
             state: 'open',
-            base,
-            head
+            base
         });
         if (res.data.length > 1) {
             core.warning(`🤖 Multiple pull requests found:`);
             res.data.forEach(pr => {
-                core.info(` ---- ${pr.title}`);
+                core.info(` ---- ${pr.title} - ${pr.head.ref}`);
             });
         }
-        return (_a = res.data[0]) === null || _a === void 0 ? void 0 : _a.number;
+        return (_a = res.data //
+            .filter(pr => pr.head.ref === head) //
+        [0]) === null || _a === void 0 ? void 0 : _a.number;
     }
     async getClosedPRsBranches(base, title, branchSuffix) {
         const res = await this.gbClient.pulls.list({

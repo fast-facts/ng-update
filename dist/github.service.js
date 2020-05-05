@@ -36,12 +36,6 @@ class GithubService {
             state: 'open',
             base
         });
-        if (res.data.length > 1) {
-            core.warning(`🤖 Multiple pull requests found:`);
-            res.data.forEach(pr => {
-                core.info(` ---- ${pr.title} - ${pr.head.ref}`);
-            });
-        }
         return (_a = res.data //
             .filter(pr => pr.head.ref === head) //
         [0]) === null || _a === void 0 ? void 0 : _a.number;

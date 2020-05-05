@@ -42,13 +42,6 @@ export class GithubService {
       base
     });
 
-    if (res.data.length > 1) {
-      core.warning(`🤖 Multiple pull requests found:`);
-      res.data.forEach(pr => {
-        core.info(` ---- ${pr.title} - ${pr.head.ref}`);
-      });
-    }
-
     return res.data//
       .filter(pr => pr.head.ref === head)//
     [0]?.number;
@@ -124,7 +117,7 @@ export class GithubService {
     }
   }
 
-  private async  addReviewers(prNumber: number, reviewers: string[]) {
+  private async addReviewers(prNumber: number, reviewers: string[]) {
     if (!prNumber || !reviewers || reviewers.length === 0) return null;
     return this.gbClient.pulls.createReviewRequest({
       owner: this.owner,

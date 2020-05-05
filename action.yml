@@ -42,7 +42,7 @@ inputs:
       </details>
   pr-labels:
     description: The labels that should be added to the PR(comma separated)
-    default: ng-update, automated pr
+    default: dependencies
   pr-assignees:
     description : The users that should be assigned to the PR(comma separated)
     default :

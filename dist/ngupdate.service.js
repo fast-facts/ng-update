@@ -1,4 +1,5 @@
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.NgUpdateService = exports.PackageToUpdate = void 0;
 const tslib_1 = require("tslib");
 const exec = tslib_1.__importStar(require("@actions/exec"));
 const core = tslib_1.__importStar(require("@actions/core"));
@@ -45,7 +46,7 @@ class NgUpdateService {
             }
             if (pkgsToUpdate.length) {
                 core.info(`🤖 Updating outdated ng dependencies: ${pkgsToUpdate.map(p => `'${p.name}'`)}...`);
-                const ngUpdatePkgsArgs = [...ngUpdateArgs, ...(pkgsToUpdate.map(p => p.name))];
+                const ngUpdatePkgsArgs = [...ngUpdateArgs, ...(pkgsToUpdate.map(p => p.name)), ' --allow-dirty'];
                 const ngUpdatePkgsOptions = {
                     cwd: this.projectPath
                 };

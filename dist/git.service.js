@@ -1,4 +1,5 @@
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GitService = void 0;
 const tslib_1 = require("tslib");
 const promise_1 = tslib_1.__importDefault(require("simple-git/promise"));
 class GitService {

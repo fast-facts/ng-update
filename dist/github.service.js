@@ -1,4 +1,5 @@
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GithubService = void 0;
 const tslib_1 = require("tslib");
 const core = tslib_1.__importStar(require("@actions/core"));
 class GithubService {

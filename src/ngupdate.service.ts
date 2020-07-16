@@ -46,7 +46,6 @@ export class NgUpdateService {
       core.info('🤖 Congratulations 👏, you are already using the latest version of Angular!');
       return { packages: [], ngUpdateOutput, ngUpdateErrorOutput };
     } else if (ngUpdateOutput.indexOf(NgUpdateService.UPDATE_FOUND) > 0) {
-
       const ngUpdateRegEx = /\s+([@/a-zA-Z0-9]+)\s+(\d+\.\d+\.\d+)\s+->\s+(\d+\.\d+\.\d+)\s+ng update/gm;
 
       const pkgsToUpdate: PackageToUpdate[] = [];
@@ -57,7 +56,7 @@ export class NgUpdateService {
 
       if (pkgsToUpdate.length) {
         core.info(`🤖 Updating outdated ng dependencies: ${pkgsToUpdate.map(p => `'${p.name}'`)}...`);
-        const ngUpdatePkgsArgs = [...ngUpdateArgs, ...(pkgsToUpdate.map(p => p.name))];
+        const ngUpdatePkgsArgs = [...ngUpdateArgs, ...(pkgsToUpdate.map(p => p.name)), ' --allow-dirty'];
         const ngUpdatePkgsOptions: ExecOptions = {
           cwd: this.projectPath
         };

@@ -45,8 +45,8 @@ class NgUpdateService {
                 pkgsToUpdate.push(new PackageToUpdate(match[1], match[2], match[3]));
             }
             if (pkgsToUpdate.length) {
-                core.info(`🤖 Updating outdated ng dependencies: ${pkgsToUpdate.map(p => `'${p.name}'`)}...`);
-                const ngUpdatePkgsArgs = [...ngUpdateArgs, ...(pkgsToUpdate.map(p => p.name)), ' --allow-dirty'];
+                core.info(`🤖 Updating outdated ng dependencies: ${pkgsToUpdate.map(p => `'${p.name}'`)}`);
+                const ngUpdatePkgsArgs = [...ngUpdateArgs, '--allow-dirty', ...(pkgsToUpdate.map(p => p.name))];
                 const ngUpdatePkgsOptions = {
                     cwd: this.projectPath
                 };

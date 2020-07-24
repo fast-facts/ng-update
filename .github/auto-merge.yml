@@ -1,0 +1,15 @@
+updateBranch: true
+deleteBranchAfterMerge: true
+reportStatus: true
+
+minApprovals:
+  COLLABORATOR: 0
+maxRequestedChanges:
+  NONE: 0
+blockingTitleRegex: '\bBump @angular'
+
+rules:
+- minApprovals:
+    OWNER: 1
+- requiredLabels:
+  - dependencies

@@ -31,7 +31,7 @@
     "@actions/io": "^1.0.2",
     "object-hash": "^2.0.3",
     "simple-git": "^2.20.1",
-    "tslib": "^2.0.2"
+    "tslib": "^2.0.3"
   },
   "devDependencies": {
     "@types/node": "^14.11.8",

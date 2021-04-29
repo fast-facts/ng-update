@@ -4,17 +4,8 @@ updates:
   directory: "/"
   schedule:
     interval: daily
+    time: "03:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
   labels:
   - dependencies
-  ignore:
-  - dependency-name: "@actions/github"
-    versions:
-    - "> 2.2.0"
-  - dependency-name: "@types/node"
-    versions:
-    - 14.14.39
-  - dependency-name: typescript
-    versions:
-    - 4.2.4

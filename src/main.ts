@@ -46,7 +46,7 @@ import { Helpers } from './helpers';
     const ngFilePath = path.join(projectPath, 'angular.json');
     const isNgProject = await Helpers.isFileExists(ngFilePath);
     if (!isNgProject) {
-      core.warning(`🤖 Could not detect an Angular CLI project under "${projectPath}", exiting`);
+      core.error(`🤖 Could not detect an Angular CLI project under "${projectPath}", exiting`);
       return;
     }
 

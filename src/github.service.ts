@@ -110,9 +110,9 @@ export class GithubService {
       core.info(`🤖 Updated pull request [${this.repoPath}]#${prNumber}`);
 
       return prNumber;
-    } catch (error) {
+    } catch (ex: any) {
       core.error(`🤖  Create PR on [${this.repoPath}] from ${head} failed`);
-      core.setFailed(error);
+      core.setFailed(ex);
       return null;
     }
   }

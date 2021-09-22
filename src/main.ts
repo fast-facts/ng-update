@@ -106,7 +106,7 @@ import { Helpers } from './helpers';
         await gbService.deleteClosedPRsBranches(baseBranch, prBranchPrefix, prTitle);
       });
     }
-  } catch (error) {
-    core.setFailed(error.message);
+  } catch (ex: any) {
+    core.setFailed(ex.message);
   }
 })();

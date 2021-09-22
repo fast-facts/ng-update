@@ -41,8 +41,8 @@ export class GitService {
       await this.git.reset(['--hard', `origin/${baseBranch}`]);
       try {
         await this.git.stash(['pop']);
-      } catch (e) {
-        console.error(`error when unstashing: ${e.message}`);
+      } catch (ex: any) {
+        console.error(`error when unstashing: ${ex.message}`);
         await this.git.checkout(['--theirs', '.']);
         await this.git.reset();
       }

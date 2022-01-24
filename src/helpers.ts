@@ -41,7 +41,7 @@ export class Helpers {
   }
 
   public static getLocalNgExecPath(baseDir: string) {
-    return path.normalize(path.join(baseDir, 'node_modules', '@angular', 'cli', 'bin', 'ng'));
+    return path.normalize(path.join(baseDir, 'node_modules', '.bin', 'ng'));
   }
   public static getPrBody(body: string, ngUpdateOutput: string) {
     return body.replace('${ngUpdateOutput}', ngUpdateOutput);

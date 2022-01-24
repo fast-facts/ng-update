@@ -1,11 +1,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GitService = void 0;
 const tslib_1 = require("tslib");
-const promise_1 = tslib_1.__importDefault(require("simple-git/promise"));
+const promise_1 = (0, tslib_1.__importDefault)(require("simple-git/promise"));
 class GitService {
     constructor(repoDir) {
         this.repoDir = repoDir;
-        this.git = promise_1.default(repoDir);
+        this.git = (0, promise_1.default)(repoDir);
     }
     async clone(repoUrl, depth) {
         await this.git.clone(repoUrl, this.repoDir, { ...(depth && { '--depth': depth }) });
@@ -34,8 +34,8 @@ class GitService {
             try {
                 await this.git.stash(['pop']);
             }
-            catch (e) {
-                console.error(`error when unstashing: ${e.message}`);
+            catch (ex) {
+                console.error(`error when unstashing: ${ex.message}`);
                 await this.git.checkout(['--theirs', '.']);
                 await this.git.reset();
             }

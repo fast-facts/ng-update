@@ -1,8 +1,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NgUpdateService = exports.PackageToUpdate = void 0;
 const tslib_1 = require("tslib");
-const exec = tslib_1.__importStar(require("@actions/exec"));
-const core = tslib_1.__importStar(require("@actions/core"));
+const exec = (0, tslib_1.__importStar)(require("@actions/exec"));
+const core = (0, tslib_1.__importStar)(require("@actions/core"));
 const helpers_1 = require("./helpers");
 class PackageToUpdate {
     constructor(name, oldVersion, newVersion) {

@@ -1,8 +1,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-const core = tslib_1.__importStar(require("@actions/core"));
-const github = tslib_1.__importStar(require("@actions/github"));
-const path = tslib_1.__importStar(require("path"));
+const core = (0, tslib_1.__importStar)(require("@actions/core"));
+const github = (0, tslib_1.__importStar)(require("@actions/github"));
+const path = (0, tslib_1.__importStar)(require("path"));
 const github_service_1 = require("./github.service");
 const ngupdate_service_1 = require("./ngupdate.service");
 const git_service_1 = require("./git.service");
@@ -91,8 +91,8 @@ const helpers_1 = require("./helpers");
             });
         }
     }
-    catch (error) {
-        core.setFailed(error.message);
+    catch (ex) {
+        core.setFailed(ex.message);
     }
 })();
 //# sourceMappingURL=main.js.map

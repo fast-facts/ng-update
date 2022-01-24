@@ -1,7 +1,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GithubService = void 0;
 const tslib_1 = require("tslib");
-const core = tslib_1.__importStar(require("@actions/core"));
+const core = (0, tslib_1.__importStar)(require("@actions/core"));
 class GithubService {
     constructor(gbClient, context) {
         this.gbClient = gbClient;
@@ -93,9 +93,9 @@ class GithubService {
             core.info(`🤖 Updated pull request [${this.repoPath}]#${prNumber}`);
             return prNumber;
         }
-        catch (error) {
+        catch (ex) {
             core.error(`🤖  Create PR on [${this.repoPath}] from ${head} failed`);
-            core.setFailed(error);
+            core.setFailed(ex);
             return null;
         }
     }

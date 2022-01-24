@@ -1,9 +1,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Helpers = void 0;
 const tslib_1 = require("tslib");
-const exec = tslib_1.__importStar(require("@actions/exec"));
-const path = tslib_1.__importStar(require("path"));
-const fs = tslib_1.__importStar(require("fs"));
+const exec = (0, tslib_1.__importStar)(require("@actions/exec"));
+const path = (0, tslib_1.__importStar)(require("path"));
+const fs = (0, tslib_1.__importStar)(require("fs"));
 // tslint:disable-next-line: no-var-requires
 const hash = require('object-hash');
 const io_util_1 = require("@actions/io/lib/io-util");
@@ -12,7 +12,7 @@ class Helpers {
         return new Promise((resolve) => setTimeout(resolve, millis));
     }
     static async isFileExists(filePath) {
-        return io_util_1.exists(filePath);
+        return (0, io_util_1.exists)(filePath);
     }
     static isFolderEmpty(folderPath) {
         return fs.readdirSync(folderPath).length === 0;
@@ -25,7 +25,7 @@ class Helpers {
     static async ensureNodeModules(projectPath, force) {
         if (!force) {
             const nodeModulesPath = path.normalize(path.join(projectPath, 'node_modules'));
-            const hasNodeModules = await io_util_1.exists(nodeModulesPath);
+            const hasNodeModules = await (0, io_util_1.exists)(nodeModulesPath);
             if (hasNodeModules)
                 return;
         }
@@ -36,7 +36,7 @@ class Helpers {
         await (useYarn ? exec.exec('yarn', ['install'], options) : exec.exec('npm', ['ci'], options));
     }
     static getLocalNgExecPath(baseDir) {
-        return path.normalize(path.join(baseDir, 'node_modules', '@angular', 'cli', 'bin', 'ng'));
+        return path.normalize(path.join(baseDir, 'node_modules', '.bin', 'ng'));
     }
     static getPrBody(body, ngUpdateOutput) {
         return body.replace('${ngUpdateOutput}', ngUpdateOutput);

@@ -34,7 +34,7 @@ describe('Helpers Tests', () => {
   });
 
   it('getLocalNgExecPath: should return path to local "ng" executable', () => {
-    expect(Helpers.getLocalNgExecPath('/path/to').replace(/\\/g, '/')).to.eql('/path/to/node_modules/@angular/cli/bin/ng');
+    expect(Helpers.getLocalNgExecPath('/path/to').replace(/\\/g, '/')).to.eql('/path/to/node_modules/.bin/ng');
   });
 
   it('computeSha1: should return SHA1 of given object', () => {

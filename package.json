@@ -30,7 +30,7 @@
     "@actions/github": "^2.2.0",
     "@actions/io": "^1.1.2",
     "object-hash": "^3.0.0",
-    "simple-git": "^3.7.0",
+    "simple-git": "^3.7.1",
     "tslib": "^2.4.0"
   },
   "devDependencies": {

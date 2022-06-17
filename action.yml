@@ -2,7 +2,7 @@ name: ng-update
 description: Keeps your Angular CLI projects up-to-date via automated pull requests based on `ng update`
 author: Tine Kondo
 inputs:
-# Core options
+  # Core options
   base-branch:
     description: The base branch the PRs will be created from
     default: master
@@ -21,17 +21,17 @@ inputs:
     description: The NPM registry to use
     default:
 
-# Options to customize the PR
+  # Options to customize the PR
   pr-branch-prefix:
     description: The prefix of the PR branch name
     default: chore-ng-update-
   pr-title:
     description: The title of the PR. Will also be the message of the related PR commit
-    default: 'chore(ng-update): update angular dependencies'
+    default: "chore(ng-update): update angular dependencies"
   pr-body:
     description: The body of the PR
     default: |
-      [ng-update](https://github.com/itzrabbs/ng-update) 🤖 has automatically run `ng update` for you and baked this hot 🔥 PR , ready to merge.
+      [ng-update](https://github.com/RabbitPlayground/ng-update) 🤖 has automatically run `ng update` for you and baked this hot 🔥 PR , ready to merge.
 
       <details>
         <summary>Ng Update Output:</summary>
@@ -44,8 +44,8 @@ inputs:
     description: The labels that should be added to the PR(comma separated)
     default: dependencies
   pr-assignees:
-    description : The users that should be assigned to the PR(comma separated)
-    default :
+    description: The users that should be assigned to the PR(comma separated)
+    default:
   pr-reviewers:
     description: The users that should review the PR(comma separated)
     default:
@@ -61,5 +61,5 @@ runs:
   using: node12
   main: dist/main.js
 branding:
-  icon: 'arrow-up'
-  color: 'red'
+  icon: "arrow-up"
+  color: "red"

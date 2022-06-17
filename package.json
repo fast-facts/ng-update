@@ -12,17 +12,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/itzrabbs/ng-update.git"
+    "url": "git+https://github.com/RabbitPlayground/ng-update.git"
   },
-  "homepage": "https://github.com/itzrabbs/ng-update",
-  "bugs": "https://github.com/itzrabbs/ng-update/issues",
+  "homepage": "https://github.com/RabbitPlayground/ng-update",
+  "bugs": "https://github.com/RabbitPlayground/ng-update/issues",
   "keywords": [
     "actions",
     "angular",
     "ng",
     "update"
   ],
-  "author": "ItzRabbs",
+  "author": "RabbitPlayground",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.9.0",

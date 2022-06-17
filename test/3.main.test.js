@@ -13,11 +13,11 @@ describe('Main Tests', () => {
       result = cp.execSync(`node ${ip}`, {
         env: {
           'FORCE_INSTALL_NODE_MODULES': 'true',
-          'GITHUB_REPOSITORY': 'itzrabbs/ng-update', // required by github.context
+          'GITHUB_REPOSITORY': 'RabbitPlayground/ng-update', // required by github.context
           'GITHUB_WORKSPACE': `${repoDir}`,
           'INPUT_BASE-BRANCH': 'master',
           'INPUT_PR-TITLE': 'chore(ng-update): update angular dependencies',
-          'INPUT_PR-BODY': '[ng-update](https://github.com/itzrabbs/ng-update) 🤖 has automatically run `ng update` for you and baked this hot 🔥 PR , ready to merge.',
+          'INPUT_PR-BODY': '[ng-update](https://github.com/RabbitPlayground/ng-update) 🤖 has automatically run `ng update` for you and baked this hot 🔥 PR , ready to merge.',
           'INPUT_PR-BRANCH-PREFIX': 'chore-ng-update-'
         }
       }).toString();

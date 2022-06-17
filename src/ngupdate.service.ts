@@ -49,7 +49,6 @@ export class NgUpdateService {
       const ngUpdateRegEx = /\s+([@/a-zA-Z0-9]+)\s+(\d+\.\d+\.\d+)\s+->\s+(\d+\.\d+\.\d+)\s+ng update/gm;
 
       const pkgsToUpdate: PackageToUpdate[] = [];
-      // tslint:disable-next-line: no-conditional-assignment
       for (let match: RegExpExecArray | null; (match = ngUpdateRegEx.exec(ngUpdateOutput));) {
         pkgsToUpdate.push(new PackageToUpdate(match[1], match[2], match[3]));
       }

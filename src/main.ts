@@ -1,15 +1,13 @@
 import * as core from '@actions/core';
-import * as github from '@actions/github';
+import { context, getOctokit } from '@actions/github';
 import * as path from 'path';
 import { GithubService } from './github.service';
 import { NgUpdateService } from './ngupdate.service';
 import { GitService } from './git.service';
 import { Helpers } from './helpers';
 
-// tslint:disable-next-line: no-floating-promises
-(async () => {
+void (async () => {
   try {
-    const context = github.context;
     const repo = `${context.repo.owner}/${context.repo.repo}`;
     const repoToken = core.getInput('repo-token');
     const baseBranch = core.getInput('base-branch');
@@ -19,7 +17,7 @@ import { Helpers } from './helpers';
     const authorEmail = `ng-update@users.noreply.github.com`;
     const projectPath = path.normalize(path.join(repoDir, core.getInput('project-path')));
 
-    const gbClient = new github.GitHub(repoToken);
+    const gbClient = getOctokit(repoToken);
     const ngService = new NgUpdateService(projectPath);
     const gitService = new GitService(repoDir);
     const gbService = new GithubService(gbClient, context);

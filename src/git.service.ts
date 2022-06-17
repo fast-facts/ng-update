@@ -1,4 +1,4 @@
-import gitP, { SimpleGit } from 'simple-git/promise';
+import gitP, { SimpleGit } from 'simple-git';
 
 
 export class GitService {

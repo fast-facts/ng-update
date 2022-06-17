@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import { GitHub } from '@actions/github';
+import { getOctokit } from '@actions/github';
 import { Context } from '@actions/github/lib/context';
 
 export class GithubService {
@@ -7,7 +7,7 @@ export class GithubService {
   private owner: string;
   private repo: string;
   private repoPath: string;
-  constructor(private gbClient: GitHub, private context: Context) {
+  constructor(private gbClient: ReturnType<typeof getOctokit>, private context: Context) {
     this.repoPath = `${context.repo.owner}/${context.repo.repo}`;
     this.owner = context.repo.owner;
     this.repo = context.repo.repo;
@@ -35,21 +35,19 @@ export class GithubService {
   }
   public async getOpenPR(base: string, head: string): Promise<number | null> {
 
-    const res = await this.gbClient.pulls.list({
+    const res = await this.gbClient.rest.pulls.list({
       owner: this.owner,
       repo: this.repo,
       state: 'open',
       base
     });
 
-    return res.data//
-      .filter(pr => pr.head.ref === head)//
-    [0]?.number;
+    return res.data.filter(pr => pr.head.ref === head)[0]?.number;
   }
 
   public async getClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<string[]> {
 
-    const res = await this.gbClient.pulls.list({
+    const res = await this.gbClient.rest.pulls.list({
       owner: this.owner,
       repo: this.repo,
       state: 'closed',
@@ -66,7 +64,7 @@ export class GithubService {
   public async deleteClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<void> {
     const branches = await this.getClosedPRsBranches(base, title, branchSuffix);
     for (const branch of Object.keys(branches)) {
-      const res = await this.gbClient.git.deleteRef({
+      const res = await this.gbClient.rest.git.deleteRef({
         owner: this.owner,
         repo: this.repo,
         ref: branch
@@ -82,7 +80,7 @@ export class GithubService {
 
   public async createPR(base: string, head: string, title: string, body: string, assignees: string[], reviewers: string[], labels: string[]): Promise<number | null> {
     try {
-      const createdPR = await this.gbClient.pulls.create({
+      const createdPR = await this.gbClient.rest.pulls.create({
         owner: this.owner,
         repo: this.repo,
         head,
@@ -96,7 +94,7 @@ export class GithubService {
 
       core.info(`🤖 Created pull request [${this.repoPath}]#${prNumber}`);
 
-      await this.gbClient.issues.update({
+      await this.gbClient.rest.issues.update({
         owner: this.owner,
         repo: this.repo,
         issue_number: prNumber,
@@ -119,7 +117,7 @@ export class GithubService {
 
   private async addReviewers(prNumber: number, reviewers: string[]) {
     if (!prNumber || !reviewers || reviewers.length === 0) return null;
-    return this.gbClient.pulls.createReviewRequest({
+    return this.gbClient.rest.pulls.requestReviewers({
       owner: this.owner,
       repo: this.repo,
       pull_number: prNumber,

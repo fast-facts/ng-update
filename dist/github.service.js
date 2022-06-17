@@ -1,7 +1,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GithubService = void 0;
-const tslib_1 = require("tslib");
-const core = (0, tslib_1.__importStar)(require("@actions/core"));
+const core = require("@actions/core");
 class GithubService {
     constructor(gbClient, context) {
         this.gbClient = gbClient;
@@ -31,18 +30,16 @@ class GithubService {
     }
     async getOpenPR(base, head) {
         var _a;
-        const res = await this.gbClient.pulls.list({
+        const res = await this.gbClient.rest.pulls.list({
             owner: this.owner,
             repo: this.repo,
             state: 'open',
             base
         });
-        return (_a = res.data //
-            .filter(pr => pr.head.ref === head) //
-        [0]) === null || _a === void 0 ? void 0 : _a.number;
+        return (_a = res.data.filter(pr => pr.head.ref === head)[0]) === null || _a === void 0 ? void 0 : _a.number;
     }
     async getClosedPRsBranches(base, title, branchSuffix) {
-        const res = await this.gbClient.pulls.list({
+        const res = await this.gbClient.rest.pulls.list({
             owner: this.owner,
             repo: this.repo,
             state: 'closed',
@@ -57,7 +54,7 @@ class GithubService {
     async deleteClosedPRsBranches(base, title, branchSuffix) {
         const branches = await this.getClosedPRsBranches(base, title, branchSuffix);
         for (const branch of Object.keys(branches)) {
-            const res = await this.gbClient.git.deleteRef({
+            const res = await this.gbClient.rest.git.deleteRef({
                 owner: this.owner,
                 repo: this.repo,
                 ref: branch
@@ -70,7 +67,7 @@ class GithubService {
     }
     async createPR(base, head, title, body, assignees, reviewers, labels) {
         try {
-            const createdPR = await this.gbClient.pulls.create({
+            const createdPR = await this.gbClient.rest.pulls.create({
                 owner: this.owner,
                 repo: this.repo,
                 head,
@@ -81,7 +78,7 @@ class GithubService {
             });
             const prNumber = createdPR.data.number;
             core.info(`🤖 Created pull request [${this.repoPath}]#${prNumber}`);
-            await this.gbClient.issues.update({
+            await this.gbClient.rest.issues.update({
                 owner: this.owner,
                 repo: this.repo,
                 issue_number: prNumber,
@@ -102,7 +99,7 @@ class GithubService {
     async addReviewers(prNumber, reviewers) {
         if (!prNumber || !reviewers || reviewers.length === 0)
             return null;
-        return this.gbClient.pulls.createReviewRequest({
+        return this.gbClient.rest.pulls.requestReviewers({
             owner: this.owner,
             repo: this.repo,
             pull_number: prNumber,

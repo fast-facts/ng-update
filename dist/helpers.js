@@ -1,10 +1,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Helpers = void 0;
-const tslib_1 = require("tslib");
-const exec = (0, tslib_1.__importStar)(require("@actions/exec"));
-const path = (0, tslib_1.__importStar)(require("path"));
-const fs = (0, tslib_1.__importStar)(require("fs"));
-// tslint:disable-next-line: no-var-requires
+const exec = require("@actions/exec");
+const path = require("path");
+const fs = require("fs");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const hash = require('object-hash');
 const io_util_1 = require("@actions/io/lib/io-util");
 class Helpers {

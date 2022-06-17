@@ -1,4 +1,4 @@
-import { GitHub } from '@actions/github';
+import { getOctokit } from '@actions/github';
 import { Context } from '@actions/github/lib/context';
 export declare class GithubService {
     private gbClient;
@@ -6,7 +6,7 @@ export declare class GithubService {
     private owner;
     private repo;
     private repoPath;
-    constructor(gbClient: GitHub, context: Context);
+    constructor(gbClient: ReturnType<typeof getOctokit>, context: Context);
     shouldIgnoreEvent(baseBranch: string): boolean;
     getOpenPR(base: string, head: string): Promise<number | null>;
     getClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<string[]>;

@@ -1,8 +1,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NgUpdateService = exports.PackageToUpdate = void 0;
-const tslib_1 = require("tslib");
-const exec = (0, tslib_1.__importStar)(require("@actions/exec"));
-const core = (0, tslib_1.__importStar)(require("@actions/core"));
+const exec = require("@actions/exec");
+const core = require("@actions/core");
 const helpers_1 = require("./helpers");
 class PackageToUpdate {
     constructor(name, oldVersion, newVersion) {
@@ -40,7 +39,6 @@ class NgUpdateService {
         else if (ngUpdateOutput.indexOf(NgUpdateService.UPDATE_FOUND) > 0) {
             const ngUpdateRegEx = /\s+([@/a-zA-Z0-9]+)\s+(\d+\.\d+\.\d+)\s+->\s+(\d+\.\d+\.\d+)\s+ng update/gm;
             const pkgsToUpdate = [];
-            // tslint:disable-next-line: no-conditional-assignment
             for (let match; (match = ngUpdateRegEx.exec(ngUpdateOutput));) {
                 pkgsToUpdate.push(new PackageToUpdate(match[1], match[2], match[3]));
             }

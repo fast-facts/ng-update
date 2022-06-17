@@ -1,17 +1,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const core = (0, tslib_1.__importStar)(require("@actions/core"));
-const github = (0, tslib_1.__importStar)(require("@actions/github"));
-const path = (0, tslib_1.__importStar)(require("path"));
+const core = require("@actions/core");
+const github_1 = require("@actions/github");
+const path = require("path");
 const github_service_1 = require("./github.service");
 const ngupdate_service_1 = require("./ngupdate.service");
 const git_service_1 = require("./git.service");
 const helpers_1 = require("./helpers");
-// tslint:disable-next-line: no-floating-promises
-(async () => {
+void (async () => {
     try {
-        const context = github.context;
-        const repo = `${context.repo.owner}/${context.repo.repo}`;
+        const repo = `${github_1.context.repo.owner}/${github_1.context.repo.repo}`;
         const repoToken = core.getInput('repo-token');
         const baseBranch = core.getInput('base-branch');
         const remoteUrl = `https://x-access-token:${repoToken}@github.com/${repo}`;
@@ -19,10 +16,10 @@ const helpers_1 = require("./helpers");
         const authorName = 'ng-update[bot]';
         const authorEmail = `ng-update@users.noreply.github.com`;
         const projectPath = path.normalize(path.join(repoDir, core.getInput('project-path')));
-        const gbClient = new github.GitHub(repoToken);
+        const gbClient = (0, github_1.getOctokit)(repoToken);
         const ngService = new ngupdate_service_1.NgUpdateService(projectPath);
         const gitService = new git_service_1.GitService(repoDir);
-        const gbService = new github_service_1.GithubService(gbClient, context);
+        const gbService = new github_service_1.GithubService(gbClient, github_1.context);
         core.info(`🤖 Checking if received Github event should be ignored...`);
         if (gbService.shouldIgnoreEvent(baseBranch)) {
             return;

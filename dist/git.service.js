@@ -1,11 +1,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GitService = void 0;
-const tslib_1 = require("tslib");
-const promise_1 = (0, tslib_1.__importDefault)(require("simple-git/promise"));
+const simple_git_1 = require("simple-git");
 class GitService {
     constructor(repoDir) {
         this.repoDir = repoDir;
-        this.git = (0, promise_1.default)(repoDir);
+        this.git = (0, simple_git_1.default)(repoDir);
     }
     async clone(repoUrl, depth) {
         await this.git.clone(repoUrl, this.repoDir, { ...(depth && { '--depth': depth }) });

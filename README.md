@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Updating ng dependencies # the magic happens here !
-        uses: RabbitPlayground/ng-update@master
+        uses: fast-facts/ng-update@master
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 

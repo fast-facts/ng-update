@@ -13,17 +13,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RabbitPlayground/ng-update.git"
+    "url": "git+https://github.com/fast-facts/ng-update.git"
   },
-  "homepage": "https://github.com/RabbitPlayground/ng-update",
-  "bugs": "https://github.com/RabbitPlayground/ng-update/issues",
+  "homepage": "https://github.com/fast-facts/ng-update",
+  "bugs": "https://github.com/fast-facts/ng-update/issues",
   "keywords": [
     "actions",
     "angular",
     "ng",
     "update"
   ],
-  "author": "RabbitPlayground",
+  "author": "fast-facts",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.9.0",

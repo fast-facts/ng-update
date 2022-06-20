@@ -31,7 +31,7 @@ inputs:
   pr-body:
     description: The body of the PR
     default: |
-      [ng-update](https://github.com/RabbitPlayground/ng-update) 🤖 has automatically run `ng update` for you and baked this hot 🔥 PR , ready to merge.
+      [ng-update](https://github.com/fast-facts/ng-update) 🤖 has automatically run `ng update` for you and baked this hot 🔥 PR , ready to merge.
 
       <details>
         <summary>Ng Update Output:</summary>

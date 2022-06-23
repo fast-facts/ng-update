@@ -14,7 +14,7 @@ void (async () => {
     const remoteUrl = `https://x-access-token:${repoToken}@github.com/${repo}`;
     const repoDir = process.env.GITHUB_WORKSPACE || ''; // TODO: if empty, manually checkout project
     const authorName = 'ng-update[bot]';
-    const authorEmail = `ng-update@users.noreply.github.com`;
+    const authorEmail = 'ng-update@users.noreply.github.com';
     const projectPath = path.normalize(path.join(repoDir, core.getInput('project-path')));
 
     const gbClient = getOctokit(repoToken);
@@ -22,7 +22,7 @@ void (async () => {
     const gitService = new GitService(repoDir);
     const gbService = new GithubService(gbClient, context);
 
-    core.info(`🤖 Checking if received Github event should be ignored...`);
+    core.info('🤖 Checking if received Github event should be ignored...');
     if (gbService.shouldIgnoreEvent(baseBranch)) {
       return;
     }
@@ -51,7 +51,7 @@ void (async () => {
     const prTitle = core.getInput('pr-title');
     const prBranchPrefix = core.getInput('pr-branch-prefix');
 
-    await core.group(`🤖 Prerequisites are done. Trying to 'ng update' your code now...`, async () => {
+    await core.group('🤖 Prerequisites are done. Trying to \'ng update\' your code now...', async () => {
       const ngUpdateResult = await ngService.runUpdate();
 
       if (ngUpdateResult.packages.length > 0 && await gitService.hasChanges()) {
@@ -92,7 +92,7 @@ void (async () => {
           core.setOutput('pr-number', `'${prNumber}'`);
         }
       } else {
-        core.info(`🤖 Running 'ng update' has produced no change in your code, you must be up-to-date already 👏!`);
+        core.info('🤖 Running \'ng update\' has produced no change in your code, you must be up-to-date already 👏!');
       }
 
       core.setOutput('ng-update-result', JSON.stringify(ngUpdateResult.packages));
@@ -100,7 +100,7 @@ void (async () => {
 
     const deleteClosedPRBranches = core.getInput('delete-closed-pr-branches') === 'true';
     if (deleteClosedPRBranches) {
-      await core.group(`🤖 Deleting branches related to closed PRs created by this action...`, async () => {
+      await core.group('🤖 Deleting branches related to closed PRs created by this action...', async () => {
         await gbService.deleteClosedPRsBranches(baseBranch, prBranchPrefix, prTitle);
       });
     }

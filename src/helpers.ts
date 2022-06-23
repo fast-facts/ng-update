@@ -9,7 +9,7 @@ import { ExecOptions } from '@actions/exec/lib/interfaces';
 export class Helpers {
 
   public static timeout(millis: number) {
-    return new Promise((resolve) => setTimeout(resolve, millis));
+    return new Promise(resolve => setTimeout(resolve, millis));
   }
 
   public static async isFileExists(filePath: string): Promise<boolean> {

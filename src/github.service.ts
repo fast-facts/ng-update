@@ -14,7 +14,7 @@ export class GithubService {
   }
 
   public shouldIgnoreEvent(baseBranch: string): boolean {
-    if (this.context.eventName === "push") {
+    if (this.context.eventName === 'push') {
       if (this.context.ref !== `refs/heads/${baseBranch}`) {
         core.info(`🤖 Ignoring events not originating from base branch '${baseBranch}' (was '${this.context.ref}').`);
         return true;

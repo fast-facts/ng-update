@@ -46,7 +46,7 @@ export class NgUpdateService {
       core.info('🤖 Congratulations 👏, you are already using the latest version of Angular!');
       return { packages: [], ngUpdateOutput, ngUpdateErrorOutput };
     } else if (ngUpdateOutput.indexOf(NgUpdateService.UPDATE_FOUND) > 0) {
-      const ngUpdateRegEx = /\s+([@/a-zA-Z0-9]+)\s+(\d+\.\d+\.\d+)\s+->\s+(\d+\.\d+\.\d+)\s+ng update/gm;
+      const ngUpdateRegEx = /\s+([@\-/a-zA-Z0-9]+)\s+(\d+\.\d+\.\d+)\s+->\s+(\d+\.\d+\.\d+)\s+ng update/gm;
 
       const pkgsToUpdate: PackageToUpdate[] = [];
       for (let match: RegExpExecArray | null; (match = ngUpdateRegEx.exec(ngUpdateOutput));) {

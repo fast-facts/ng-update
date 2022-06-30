@@ -37,7 +37,7 @@ class NgUpdateService {
             return { packages: [], ngUpdateOutput, ngUpdateErrorOutput };
         }
         else if (ngUpdateOutput.indexOf(NgUpdateService.UPDATE_FOUND) > 0) {
-            const ngUpdateRegEx = /\s+([@/a-zA-Z0-9]+)\s+(\d+\.\d+\.\d+)\s+->\s+(\d+\.\d+\.\d+)\s+ng update/gm;
+            const ngUpdateRegEx = /\s+([@\-/a-zA-Z0-9]+)\s+(\d+\.\d+\.\d+)\s+->\s+(\d+\.\d+\.\d+)\s+ng update/gm;
             const pkgsToUpdate = [];
             for (let match; (match = ngUpdateRegEx.exec(ngUpdateOutput));) {
                 pkgsToUpdate.push(new PackageToUpdate(match[1], match[2], match[3]));

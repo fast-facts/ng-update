@@ -50,7 +50,7 @@ class GitService {
         return this.git.revparse(['--short', sha1]);
     }
     async commit(message) {
-        await this.git.add("./*");
+        await this.git.add('./*');
         await this.git.commit(message);
     }
     async push(branch, force) {

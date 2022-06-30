@@ -3,12 +3,11 @@ exports.Helpers = void 0;
 const exec = require("@actions/exec");
 const path = require("path");
 const fs = require("fs");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const hash = require('object-hash');
+const hash = require("object-hash");
 const io_util_1 = require("@actions/io/lib/io-util");
 class Helpers {
     static timeout(millis) {
-        return new Promise((resolve) => setTimeout(resolve, millis));
+        return new Promise(resolve => setTimeout(resolve, millis));
     }
     static async isFileExists(filePath) {
         return (0, io_util_1.exists)(filePath);

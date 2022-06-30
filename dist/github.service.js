@@ -10,7 +10,7 @@ class GithubService {
         this.repo = context.repo.repo;
     }
     shouldIgnoreEvent(baseBranch) {
-        if (this.context.eventName === "push") {
+        if (this.context.eventName === 'push') {
             if (this.context.ref !== `refs/heads/${baseBranch}`) {
                 core.info(`🤖 Ignoring events not originating from base branch '${baseBranch}' (was '${this.context.ref}').`);
                 return true;

@@ -35,7 +35,7 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@types/node": "^18.7.13",
+    "@types/node": "^18.7.14",
     "@types/object-hash": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.36.0",

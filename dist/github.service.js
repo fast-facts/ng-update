@@ -45,10 +45,9 @@ class GithubService {
             state: 'closed',
             base
         });
-        return res.data //
-            .filter(pr => !pr.locked) //
-            .filter(pr => !pr.merged_at) //
-            .filter(pr => pr.head.ref.indexOf(branchSuffix) > 0 || pr.title === title) //
+        return res.data
+            .filter(pr => !pr.locked)
+            .filter(pr => pr.head.ref.indexOf(branchSuffix) > 0 || pr.title === title)
             .map(pr => pr.head.ref);
     }
     async deleteClosedPRsBranches(base, title, branchSuffix) {

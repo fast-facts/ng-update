@@ -52,16 +52,17 @@ class GithubService {
     }
     async deleteClosedPRsBranches(base, title, branchSuffix) {
         const branches = await this.getClosedPRsBranches(base, title, branchSuffix);
-        for (const branch of Object.keys(branches)) {
-            const res = await this.gbClient.rest.git.deleteRef({
-                owner: this.owner,
-                repo: this.repo,
-                ref: branch
-            });
-            if (res.status === 204)
-                core.info(`🤖 >> Branch '${branch}' has been deleted`);
-            else if (res.status !== 422) // 422 = branch already gone
-                core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
+        for (const branch of branches) {
+            core.info(`🤖 >> Found branch '${branch}'`);
+            // const res = await this.gbClient.rest.git.deleteRef({
+            //   owner: this.owner,
+            //   repo: this.repo,
+            //   ref: branch
+            // });
+            // if (res.status === 204)
+            //   core.info(`🤖 >> Branch '${branch}' has been deleted`);
+            // else if (res.status !== 422) // 422 = branch already gone
+            //   core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
         }
     }
     async createPR(base, head, title, body, assignees, reviewers, labels) {

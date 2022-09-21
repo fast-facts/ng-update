@@ -39,31 +39,29 @@ class GithubService {
         return (_a = res.data.filter(pr => pr.head.ref === head)[0]) === null || _a === void 0 ? void 0 : _a.number;
     }
     async getClosedPRsBranches(base, title, branchPrefix) {
-        core.info(`🤖 >> owner: ${this.owner}, repo: ${this.repo}, base: ${base}`);
         const res = await this.gbClient.rest.pulls.list({
             owner: this.owner,
             repo: this.repo,
             state: 'closed',
             base
         });
-        core.info(`🤖 >> Found ${res.data.length} branches`);
         return res.data
-            .filter(pr => pr.head.ref.indexOf(branchPrefix) >= 0 || pr.title === title);
+            .filter(pr => !pr.locked)
+            .filter(pr => pr.head.ref.indexOf(branchPrefix) >= 0 || pr.title === title)
+            .map(pr => pr.head.ref);
     }
     async deleteClosedPRsBranches(base, title, branchPrefix) {
         const branches = await this.getClosedPRsBranches(base, title, branchPrefix);
-        core.info(`🤖 >> Found ${branches.length} branches`);
         for (const branch of branches) {
-            core.info(`🤖 >> Found branch '${branch.head.ref}' (locked: ${branch.locked}, merged_at: ${branch.merged_at}, state: ${branch.state})`);
-            // const res = await this.gbClient.rest.git.deleteRef({
-            //   owner: this.owner,
-            //   repo: this.repo,
-            //   ref: branch
-            // });
-            // if (res.status === 204)
-            //   core.info(`🤖 >> Branch '${branch}' has been deleted`);
-            // else if (res.status !== 422) // 422 = branch already gone
-            //   core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
+            const res = await this.gbClient.rest.git.deleteRef({
+                owner: this.owner,
+                repo: this.repo,
+                ref: branch
+            });
+            if (res.status === 204)
+                core.info(`🤖 >> Branch '${branch}' has been deleted`);
+            else if (res.status !== 422) // 422 = branch already gone
+                core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
         }
     }
     async createPR(base, head, title, body, assignees, reviewers, labels) {

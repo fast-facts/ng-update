@@ -42,18 +42,15 @@ class GithubService {
         const res = await this.gbClient.rest.pulls.list({
             owner: this.owner,
             repo: this.repo,
-            state: 'closed',
             base
         });
         return res.data
-            .filter(pr => !pr.locked)
-            .filter(pr => pr.head.ref.indexOf(branchSuffix) > 0 || pr.title === title)
-            .map(pr => pr.head.ref);
+            .filter(pr => pr.head.ref.indexOf(branchSuffix) > 0 || pr.title === title);
     }
     async deleteClosedPRsBranches(base, title, branchSuffix) {
         const branches = await this.getClosedPRsBranches(base, title, branchSuffix);
         for (const branch of branches) {
-            core.info(`🤖 >> Found branch '${branch}'`);
+            core.info(`🤖 >> Found branch '${branch.head.ref}' (locked: ${branch.locked}, merged_at: ${branch.merged_at}, state: ${branch.state})`);
             // const res = await this.gbClient.rest.git.deleteRef({
             //   owner: this.owner,
             //   repo: this.repo,

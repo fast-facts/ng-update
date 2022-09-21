@@ -27,7 +27,7 @@ inputs:
     default: chore-ng-update-
   pr-title:
     description: The title of the PR. Will also be the message of the related PR commit
-    default: "chore(ng-update): update angular dependencies"
+    default: 'chore(ng-update): update angular dependencies'
   pr-body:
     description: The body of the PR
     default: |
@@ -61,5 +61,5 @@ runs:
   using: node12
   main: dist/main.js
 branding:
-  icon: "arrow-up"
-  color: "red"
+  icon: 'arrow-up'
+  color: 'red'

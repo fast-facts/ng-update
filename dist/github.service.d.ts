@@ -9,7 +9,7 @@ export declare class GithubService {
     constructor(gbClient: ReturnType<typeof getOctokit>, context: Context);
     shouldIgnoreEvent(baseBranch: string): boolean;
     getOpenPR(base: string, head: string): Promise<number | null>;
-    getClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<{
+    getClosedPRsBranches(base: string, title: string, branchPrefix: string): Promise<{
         url: string;
         id: number;
         node_id: string;
@@ -841,7 +841,7 @@ export declare class GithubService {
         } | null;
         draft?: boolean | undefined;
     }[]>;
-    deleteClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<void>;
+    deleteClosedPRsBranches(base: string, title: string, branchPrefix: string): Promise<void>;
     createPR(base: string, head: string, title: string, body: string, assignees: string[], reviewers: string[], labels: string[]): Promise<number | null>;
     private addReviewers;
 }

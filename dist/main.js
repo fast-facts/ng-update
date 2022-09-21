@@ -84,7 +84,7 @@ void (async () => {
         const deleteClosedPRBranches = core.getInput('delete-closed-pr-branches') === 'true';
         if (deleteClosedPRBranches) {
             await core.group('🤖 Deleting branches related to closed PRs created by this action...', async () => {
-                await gbService.deleteClosedPRsBranches(baseBranch, prBranchPrefix, prTitle);
+                await gbService.deleteClosedPRsBranches(baseBranch, prTitle, prBranchPrefix);
             });
         }
     }

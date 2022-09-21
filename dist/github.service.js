@@ -38,17 +38,19 @@ class GithubService {
         });
         return (_a = res.data.filter(pr => pr.head.ref === head)[0]) === null || _a === void 0 ? void 0 : _a.number;
     }
-    async getClosedPRsBranches(base, title, branchSuffix) {
+    async getClosedPRsBranches(base, title, branchPrefix) {
+        core.info(`🤖 >> owner: ${this.owner}, repo: ${this.repo}, base: ${base}`);
         const res = await this.gbClient.rest.pulls.list({
             owner: this.owner,
             repo: this.repo,
             base
         });
+        core.info(`🤖 >> Found ${res.data.length} branches`);
         return res.data
-            .filter(pr => pr.head.ref.indexOf(branchSuffix) > 0 || pr.title === title);
+            .filter(pr => pr.head.ref.indexOf(branchPrefix) > 0 || pr.title === title);
     }
-    async deleteClosedPRsBranches(base, title, branchSuffix) {
-        const branches = await this.getClosedPRsBranches(base, title, branchSuffix);
+    async deleteClosedPRsBranches(base, title, branchPrefix) {
+        const branches = await this.getClosedPRsBranches(base, title, branchPrefix);
         core.info(`🤖 >> Found ${branches.length} branches`);
         for (const branch of branches) {
             core.info(`🤖 >> Found branch '${branch.head.ref}' (locked: ${branch.locked}, merged_at: ${branch.merged_at}, state: ${branch.state})`);

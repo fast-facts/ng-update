@@ -57,7 +57,7 @@ class GithubService {
                 const res = await this.gbClient.rest.git.deleteRef({
                     owner: this.owner,
                     repo: this.repo,
-                    ref: branch
+                    ref: `heads/${branch}`
                 });
                 if (res.status === 204)
                     core.info(`🤖 >> Branch '${branch}' has been deleted`);

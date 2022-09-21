@@ -43,11 +43,12 @@ class GithubService {
         const res = await this.gbClient.rest.pulls.list({
             owner: this.owner,
             repo: this.repo,
+            state: 'closed',
             base
         });
         core.info(`🤖 >> Found ${res.data.length} branches`);
         return res.data
-            .filter(pr => pr.head.ref.indexOf(branchPrefix) > 0 || pr.title === title);
+            .filter(pr => pr.head.ref.indexOf(branchPrefix) >= 0 || pr.title === title);
     }
     async deleteClosedPRsBranches(base, title, branchPrefix) {
         const branches = await this.getClosedPRsBranches(base, title, branchPrefix);

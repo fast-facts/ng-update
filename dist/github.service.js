@@ -53,15 +53,20 @@ class GithubService {
     async deleteClosedPRsBranches(base, title, branchPrefix) {
         const branches = await this.getClosedPRsBranches(base, title, branchPrefix);
         for (const branch of branches) {
-            const res = await this.gbClient.rest.git.deleteRef({
-                owner: this.owner,
-                repo: this.repo,
-                ref: branch
-            });
-            if (res.status === 204)
-                core.info(`🤖 >> Branch '${branch}' has been deleted`);
-            else if (res.status !== 422) // 422 = branch already gone
-                core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
+            try {
+                const res = await this.gbClient.rest.git.deleteRef({
+                    owner: this.owner,
+                    repo: this.repo,
+                    ref: branch
+                });
+                if (res.status === 204)
+                    core.info(`🤖 >> Branch '${branch}' has been deleted`);
+                else if (res.status !== 422) // 422 = branch already gone
+                    core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
+            }
+            catch (ex) {
+                core.warning(`🤖 >> Branch '${branch}' could not be deleted. Error was: ${ex.message}`);
+            }
         }
     }
     async createPR(base, head, title, body, assignees, reviewers, labels) {

@@ -45,8 +45,7 @@ export class GithubService {
     return res.data.filter(pr => pr.head.ref === head)[0]?.number;
   }
 
-  public async getClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<string[]> {
-
+  public async getClosedPRsBranches(base: string, title: string, branchPrefix: string): Promise<string[]> {
     const res = await this.gbClient.rest.pulls.list({
       owner: this.owner,
       repo: this.repo,
@@ -54,25 +53,29 @@ export class GithubService {
       base
     });
 
-    return res.data//
-      .filter(pr => !pr.locked)//
-      .filter(pr => !pr.merged_at)//
-      .filter(pr => pr.head.ref.indexOf(branchSuffix) > 0 || pr.title === title)//
+    return res.data
+      .filter(pr => !pr.locked)
+      .filter(pr => pr.head.ref.indexOf(branchPrefix) >= 0 || pr.title === title)
       .map(pr => pr.head.ref);
   }
 
-  public async deleteClosedPRsBranches(base: string, title: string, branchSuffix: string): Promise<void> {
-    const branches = await this.getClosedPRsBranches(base, title, branchSuffix);
-    for (const branch of Object.keys(branches)) {
-      const res = await this.gbClient.rest.git.deleteRef({
-        owner: this.owner,
-        repo: this.repo,
-        ref: branch
-      });
-      if (res.status === 204)
-        core.info(`🤖 >> Branch '${branch}' has been deleted`);
-      else if (res.status !== 422) // 422 = branch already gone
-        core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
+  public async deleteClosedPRsBranches(base: string, title: string, branchPrefix: string): Promise<void> {
+    const branches = await this.getClosedPRsBranches(base, title, branchPrefix);
+    for (const branch of branches) {
+      try {
+        const res = await this.gbClient.rest.git.deleteRef({
+          owner: this.owner,
+          repo: this.repo,
+          ref: `heads/${branch}`
+        });
+        if (res.status === 204)
+          core.info(`🤖 >> Branch '${branch}' has been deleted`);
+        else if (res.status !== 422) // 422 = branch already gone
+          core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
+      }
+      catch (ex: unknown) {
+        core.warning(`🤖 >> Branch '${branch}' could not be deleted. Error was: ${(ex as Error).message}`);
+      }
     }
   }
 

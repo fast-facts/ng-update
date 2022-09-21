@@ -2,6 +2,10 @@ name: Publish on Create
 
 on: create
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.base_ref }}
+  cancel-in-progress: true
+
 jobs:
   run:
     name: Publish on Create

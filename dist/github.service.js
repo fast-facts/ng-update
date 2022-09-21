@@ -49,6 +49,7 @@ class GithubService {
     }
     async deleteClosedPRsBranches(base, title, branchSuffix) {
         const branches = await this.getClosedPRsBranches(base, title, branchSuffix);
+        core.info(`🤖 >> Found ${branches.length} branches`);
         for (const branch of branches) {
             core.info(`🤖 >> Found branch '${branch.head.ref}' (locked: ${branch.locked}, merged_at: ${branch.merged_at}, state: ${branch.state})`);
             // const res = await this.gbClient.rest.git.deleteRef({

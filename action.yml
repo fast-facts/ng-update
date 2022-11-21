@@ -58,7 +58,7 @@ outputs:
   ng-update-result:
     description: The result of this action
 runs:
-  using: node12
+  using: node16
   main: dist/main.js
 branding:
   icon: 'arrow-up'

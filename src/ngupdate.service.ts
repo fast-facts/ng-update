@@ -55,7 +55,7 @@ export class NgUpdateService {
 
       if (pkgsToUpdate.length) {
         core.info(`🤖 Updating outdated ng dependencies: ${pkgsToUpdate.map(p => `'${p.name}'`)}`);
-        const ngUpdatePkgsArgs = [...ngUpdateArgs, '--allow-dirty', ...(pkgsToUpdate.map(p => p.name))];
+        const ngUpdatePkgsArgs = [...ngUpdateArgs, '--allow-dirty', ...(pkgsToUpdate.map(p => `${p.name}@${p.newVersion}`))];
         const ngUpdatePkgsOptions: ExecOptions = {
           cwd: this.projectPath
         };

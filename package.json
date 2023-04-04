@@ -38,7 +38,7 @@
     "@types/node": "^18.15.11",
     "@types/object-hash": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.1",
     "chai": "^4.3.7",
     "eslint": "^8.37.0",
     "eslint-plugin-deprecation": "^1.4.0",

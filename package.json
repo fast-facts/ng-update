@@ -43,7 +43,7 @@
     "eslint": "^8.40.0",
     "eslint-plugin-deprecation": "^1.4.1",
     "mocha": "^10.2.0",
-    "rimraf": "^5.0.0",
+    "rimraf": "^5.0.1",
     "typescript": "^5.0.4"
   },
   "release": {

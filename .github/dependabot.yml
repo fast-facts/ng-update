@@ -10,3 +10,11 @@ updates:
     versioning-strategy: increase
     labels:
       - dependencies
+    groups:
+      typescript and eslint:
+        patterns:
+          - '*typescript*'
+          - '*eslint*'
+      types:
+        patterns:
+          - '@types/*'

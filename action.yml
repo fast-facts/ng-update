@@ -8,9 +8,12 @@ inputs:
     default: master
     required: true
   project-path:
-    description: The path to Angular CLI project. Relative to root diredctory('./')
+    description: The path to Angular CLI project. Relative to root directory('./')
     default: ./
     required: true
+  node-modules-path:
+    description: The path to node_modules that contains the angular CLI. Relative to root directory('./') but defaults to project-path if null
+    default:
   repo-token:
     description: The GITHUB_TOKEN secret
     required: true

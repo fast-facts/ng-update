@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GithubService = void 0;
 const core = require("@actions/core");

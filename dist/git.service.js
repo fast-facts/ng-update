@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GitService = void 0;
 const simple_git_1 = require("simple-git");

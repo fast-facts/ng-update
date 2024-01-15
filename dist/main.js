@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = require("@actions/core");
 const github_1 = require("@actions/github");
@@ -16,8 +17,9 @@ void (async () => {
         const authorName = 'ng-update[bot]';
         const authorEmail = 'ng-update@users.noreply.github.com';
         const projectPath = path.normalize(path.join(repoDir, core.getInput('project-path')));
+        const nodeModulesPath = path.normalize(path.join(repoDir, core.getInput('node-modules-path') || core.getInput('project-path')));
         const gbClient = (0, github_1.getOctokit)(repoToken);
-        const ngService = new ngupdate_service_1.NgUpdateService(projectPath);
+        const ngService = new ngupdate_service_1.NgUpdateService(projectPath, nodeModulesPath);
         const gitService = new git_service_1.GitService(repoDir);
         const gbService = new github_service_1.GithubService(gbClient, github_1.context);
         core.info('🤖 Checking if received Github event should be ignored...');

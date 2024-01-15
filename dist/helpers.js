@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Helpers = void 0;
 const exec = require("@actions/exec");

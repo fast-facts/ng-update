@@ -1,3 +1,4 @@
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NgUpdateService = exports.PackageToUpdate = void 0;
 const exec = require("@actions/exec");
@@ -12,8 +13,9 @@ class PackageToUpdate {
 }
 exports.PackageToUpdate = PackageToUpdate;
 class NgUpdateService {
-    constructor(projectPath) {
+    constructor(projectPath, nodeModulesPath) {
         this.projectPath = projectPath;
+        this.nodeModulesPath = nodeModulesPath;
     }
     async runUpdate() {
         let ngUpdateOutput = '';
@@ -27,10 +29,10 @@ class NgUpdateService {
         };
         const npmRegistry = core.getInput('npm-registry');
         const ngUpdateArgs = npmRegistry ? [`registry=${npmRegistry}`] : [];
-        core.debug(`🤖 Ensuring NPM modules are installed under '${this.projectPath}'...`);
-        await helpers_1.Helpers.ensureNodeModules(this.projectPath, process.env.FORCE_INSTALL_NODE_MODULES === 'true');
+        core.debug(`🤖 Ensuring NPM modules are installed under '${this.nodeModulesPath}'...`);
+        await helpers_1.Helpers.ensureNodeModules(this.nodeModulesPath, process.env.FORCE_INSTALL_NODE_MODULES === 'true');
         core.debug(`🤖 Running initial 'ng update${ngUpdateArgs}'...`);
-        const ngExec = helpers_1.Helpers.getLocalNgExecPath(this.projectPath);
+        const ngExec = helpers_1.Helpers.getLocalNgExecPath(this.nodeModulesPath);
         await exec.exec(`"${ngExec}"`, ['update', ...ngUpdateArgs], ngUpdateOptions);
         if (ngUpdateOutput.indexOf(NgUpdateService.NO_UPDATE_FOUND) > 0) {
             core.info('🤖 Congratulations 👏, you are already using the latest version of Angular!');

@@ -17,7 +17,10 @@ export class NgUpdateService {
   public static readonly NO_UPDATE_FOUND = 'We analyzed your package.json and everything seems to be in order. Good work!';
   public static readonly UPDATE_FOUND = 'We analyzed your package.json, there are some packages to update:';
 
-  constructor(private projectPath: string) { }
+  constructor(
+    private projectPath: string,
+    private nodeModulesPath: string
+  ) { }
 
   public async runUpdate(): Promise<NgUpdateResult> {
 
@@ -35,11 +38,11 @@ export class NgUpdateService {
     const npmRegistry = core.getInput('npm-registry');
     const ngUpdateArgs = npmRegistry ? [`registry=${npmRegistry}`] : [];
 
-    core.debug(`🤖 Ensuring NPM modules are installed under '${this.projectPath}'...`);
-    await Helpers.ensureNodeModules(this.projectPath, process.env.FORCE_INSTALL_NODE_MODULES === 'true');
+    core.debug(`🤖 Ensuring NPM modules are installed under '${this.nodeModulesPath}'...`);
+    await Helpers.ensureNodeModules(this.nodeModulesPath, process.env.FORCE_INSTALL_NODE_MODULES === 'true');
 
     core.debug(`🤖 Running initial 'ng update${ngUpdateArgs}'...`);
-    const ngExec = Helpers.getLocalNgExecPath(this.projectPath);
+    const ngExec = Helpers.getLocalNgExecPath(this.nodeModulesPath);
     await exec.exec(`"${ngExec}"`, ['update', ...ngUpdateArgs], ngUpdateOptions);
 
     if (ngUpdateOutput.indexOf(NgUpdateService.NO_UPDATE_FOUND) > 0) {

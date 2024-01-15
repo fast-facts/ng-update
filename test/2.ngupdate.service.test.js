@@ -10,9 +10,10 @@ describe('NgUpdateService Tests', () => {
   const demoFolder = path.resolve('demo');
 
   before(async () => {
+    process.env.NG_DISABLE_VERSION_CHECK = true;
+
     fs.mkdirSync(demoFolder);
     fs.writeFileSync(path.join(demoFolder, '.gitignore'), '/node_modules');
-    process.env.NG_DISABLE_VERSION_CHECK = true;
     const options = { cwd: demoFolder, silent: false };
 
     // await exec.exec('git', ['init'], options);
@@ -23,7 +24,7 @@ describe('NgUpdateService Tests', () => {
   });
 
   it('runUpdate: should return packages to update if project is outdated', async () => {
-    const ngUpdateService = new NgUpdateService(demoFolder);
+    const ngUpdateService = new NgUpdateService(demoFolder, demoFolder);
     const result = await ngUpdateService.runUpdate();
 
     expect(result.packages.map(p => p.name)).to.eql(['@angular/cli']);

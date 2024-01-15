@@ -16,9 +16,10 @@ void (async () => {
     const authorName = 'ng-update[bot]';
     const authorEmail = 'ng-update@users.noreply.github.com';
     const projectPath = path.normalize(path.join(repoDir, core.getInput('project-path')));
+    const nodeModulesPath = path.normalize(path.join(repoDir, core.getInput('node-modules-path') || core.getInput('project-path')));
 
     const gbClient = getOctokit(repoToken);
-    const ngService = new NgUpdateService(projectPath);
+    const ngService = new NgUpdateService(projectPath, nodeModulesPath);
     const gitService = new GitService(repoDir);
     const gbService = new GithubService(gbClient, context);
 

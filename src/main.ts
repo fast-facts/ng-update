@@ -51,6 +51,7 @@ void (async () => {
 
     const prTitle = core.getInput('pr-title');
     const prBranchPrefix = core.getInput('pr-branch-prefix');
+    let prBranch = '';
 
     await core.group('🤖 Prerequisites are done. Trying to "ng update" your code now...', async () => {
       const ngUpdateResult = await ngService.runUpdate();
@@ -62,7 +63,7 @@ void (async () => {
         const prReviewers = Helpers.getPrReviewers(core.getInput('pr-reviewers'));
 
         const ngUpdateSha1 = await gitService.shortenSha1(Helpers.computeSha1(ngUpdateResult));
-        const prBranch = `${prBranchPrefix.substring(0, prBranchPrefix.lastIndexOf('-'))}-${ngUpdateSha1}`;
+        prBranch = `${prBranchPrefix.substring(0, prBranchPrefix.lastIndexOf('-'))}-${ngUpdateSha1}`;
 
         core.info(`🤖 PR branch will be: ${prBranch}`);
         const remotePrBranchExists = await gitService.remoteBranchExists(prBranch);
@@ -102,7 +103,7 @@ void (async () => {
     const deleteClosedPRBranches = core.getInput('delete-closed-pr-branches') === 'true';
     if (deleteClosedPRBranches) {
       await core.group('🤖 Deleting branches related to closed PRs created by this action...', async () => {
-        await gbService.deleteClosedPRsBranches(baseBranch, prTitle, prBranchPrefix);
+        await gbService.deleteClosedPRsBranches(baseBranch, prTitle, prBranchPrefix, prBranch);
       });
     }
   } catch (ex: any) {

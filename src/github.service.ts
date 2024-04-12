@@ -59,9 +59,11 @@ export class GithubService {
       .map(pr => pr.head.ref);
   }
 
-  public async deleteClosedPRsBranches(base: string, title: string, branchPrefix: string): Promise<void> {
+  public async deleteClosedPRsBranches(base: string, title: string, branchPrefix: string, ignore: string): Promise<void> {
     const branches = await this.getClosedPRsBranches(base, title, branchPrefix);
     for (const branch of branches) {
+      if (branch === ignore) continue;
+
       try {
         const res = await this.gbClient.rest.git.deleteRef({
           owner: this.owner,

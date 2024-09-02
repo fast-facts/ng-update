@@ -4,11 +4,11 @@
   "description": "a Github action that keeps your Angular CLI-based projects up-to-date with @angular via automated pull requests.",
   "main": "dist/main.js",
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rm -rf dist",
     "lint": "eslint . --ext .ts",
     "prebuild": "npm run clean",
     "build": "tsc",
-    "test": "rimraf demo && mocha --timeout 300000",
+    "test": "rm -rf demo && mocha --timeout 300000",
     "semantic-release": "semantic-release"
   },
   "repository": {
@@ -42,7 +42,6 @@
     "chai": "^4.5.0",
     "eslint": "^8.57.0",
     "mocha": "^10.7.3",
-    "rimraf": "^6.0.1",
     "typescript": "^5.5.4"
   },
   "release": {

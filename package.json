@@ -37,13 +37,13 @@
   "devDependencies": {
     "@types/node": "^22.5.5",
     "@types/object-hash": "^3.0.6",
-    "@typescript-eslint/eslint-plugin": "^8.5.0",
-    "@typescript-eslint/parser": "^8.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.6.0",
+    "@typescript-eslint/parser": "^8.6.0",
     "chai": "^4.5.0",
     "eslint": "^9.10.0",
     "mocha": "^10.7.3",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.5.0"
+    "typescript-eslint": "^8.6.0"
   },
   "release": {
     "plugins": [

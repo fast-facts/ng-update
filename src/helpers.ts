@@ -7,7 +7,6 @@ import { exists } from '@actions/io/lib/io-util';
 import { ExecOptions } from '@actions/exec/lib/interfaces';
 
 export class Helpers {
-
   public static timeout(millis: number) {
     return new Promise(resolve => setTimeout(resolve, millis));
   }
@@ -33,7 +32,7 @@ export class Helpers {
         return;
     }
     const options: ExecOptions = {
-      cwd: projectPath
+      cwd: projectPath,
     };
 
     const useYarn = await Helpers.isFileExists(path.join(projectPath, 'yarn.lock'));
@@ -43,6 +42,7 @@ export class Helpers {
   public static getLocalNgExecPath(baseDir: string) {
     return path.normalize(path.join(baseDir, 'node_modules', '.bin', 'ng'));
   }
+
   public static getPrBody(body: string, ngUpdateOutput: string) {
     return body.replace('${ngUpdateOutput}', ngUpdateOutput);
   }
@@ -66,6 +66,4 @@ export class Helpers {
   public static computeSha1(obj: any): string {
     return hash(obj, { algorithm: 'sha1', unorderedArrays: true });
   }
-
 }
-

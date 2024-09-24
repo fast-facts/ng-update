@@ -1,8 +1,6 @@
 import gitP, { SimpleGit } from 'simple-git';
 
-
 export class GitService {
-
   private git: SimpleGit;
 
   public constructor(private repoDir: string) {
@@ -18,7 +16,6 @@ export class GitService {
     await this.git.addConfig('user.email', authorEmail);
     await this.git.remote(['set-url', 'origin', remoteUrl]);
   }
-
 
   public async hasChanges(): Promise<boolean> {
     const status = await this.git.status();
@@ -46,8 +43,7 @@ export class GitService {
         await this.git.checkout(['--theirs', '.']);
         await this.git.reset();
       }
-    }
-    else {
+    } else {
       await this.git.checkoutBranch(branch, `origin/${baseBranch}`);
     }
   }

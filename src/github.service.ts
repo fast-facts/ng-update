@@ -3,7 +3,6 @@ import type { getOctokit } from '@actions/github';
 import { Context } from '@actions/github/lib/context';
 
 export class GithubService {
-
   private owner: string;
   private repo: string;
   private repoPath: string;
@@ -33,13 +32,13 @@ export class GithubService {
 
     return false;
   }
-  public async getOpenPR(base: string, head: string): Promise<number | null> {
 
+  public async getOpenPR(base: string, head: string): Promise<number | null> {
     const res = await this.gbClient.rest.pulls.list({
       owner: this.owner,
       repo: this.repo,
       state: 'open',
-      base
+      base,
     });
 
     return res.data.filter(pr => pr.head.ref === head)[0]?.number;
@@ -50,7 +49,7 @@ export class GithubService {
       owner: this.owner,
       repo: this.repo,
       state: 'closed',
-      base
+      base,
     });
 
     return res.data
@@ -68,20 +67,17 @@ export class GithubService {
         const res = await this.gbClient.rest.git.deleteRef({
           owner: this.owner,
           repo: this.repo,
-          ref: `heads/${branch}`
+          ref: `heads/${branch}`,
         });
         if (res.status === 204)
           core.info(`🤖 >> Branch '${branch}' has been deleted`);
         else if (res.status !== 422) // 422 = branch already gone
           core.warning(`🤖 >> Branch '${branch}' could not be deleted. Status was: ${res.status}`);
-      }
-      catch (ex: unknown) {
+      } catch (ex: unknown) {
         core.warning(`🤖 >> Branch '${branch}' could not be deleted. Error was: ${(ex as Error).message}`);
       }
     }
   }
-
-
 
   public async createPR(base: string, head: string, title: string, body: string, assignees: string[], reviewers: string[], labels: string[]): Promise<number | null> {
     try {
@@ -92,7 +88,7 @@ export class GithubService {
         base,
         maintainer_can_modify: false,
         title,
-        body
+        body,
       });
 
       const prNumber = createdPR.data.number;
@@ -105,7 +101,7 @@ export class GithubService {
         issue_number: prNumber,
         assignees,
         labels,
-        body
+        body,
       });
 
       await this.addReviewers(prNumber, reviewers);
@@ -126,8 +122,7 @@ export class GithubService {
       owner: this.owner,
       repo: this.repo,
       pull_number: prNumber,
-      reviewers
+      reviewers,
     });
   }
-
 }

@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "lint": "eslint",
+    "lint": "eslint --fix",
     "prebuild": "npm run clean",
     "build": "tsc",
     "test": "rm -rf demo && mocha --timeout 300000",
@@ -37,10 +37,9 @@
   "devDependencies": {
     "@types/node": "^22.6.1",
     "@types/object-hash": "^3.0.6",
-    "@typescript-eslint/eslint-plugin": "^8.7.0",
-    "@typescript-eslint/parser": "^8.7.0",
     "chai": "^4.5.0",
     "eslint": "^9.11.1",
+    "eslint-config-final": "^1.4.2",
     "mocha": "^10.7.3",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.7.0"

@@ -13,7 +13,6 @@ export interface NgUpdateResult {
 }
 
 export class NgUpdateService {
-
   public static readonly NO_UPDATE_FOUND = 'We analyzed your package.json and everything seems to be in order. Good work!';
   public static readonly UPDATE_FOUND = 'We analyzed your package.json, there are some packages to update:';
 
@@ -23,16 +22,15 @@ export class NgUpdateService {
   ) { }
 
   public async runUpdate(): Promise<NgUpdateResult> {
-
     let ngUpdateOutput = '';
     let ngUpdateErrorOutput = '';
 
     const ngUpdateOptions: ExecOptions = {
       listeners: {
         stdout: (data: Buffer) => ngUpdateOutput += data.toString(),
-        stderr: (data: Buffer) => ngUpdateErrorOutput = data.toString()
+        stderr: (data: Buffer) => ngUpdateErrorOutput = data.toString(),
       },
-      cwd: this.projectPath
+      cwd: this.projectPath,
     };
 
     const npmRegistry = core.getInput('npm-registry');
@@ -60,7 +58,7 @@ export class NgUpdateService {
         core.info(`🤖 Updating outdated ng dependencies: ${pkgsToUpdate.map(p => `'${p.name}'`)}`);
         const ngUpdatePkgsArgs = [...ngUpdateArgs, '--allow-dirty', ...(pkgsToUpdate.map(p => `${p.name}@${p.newVersion}`))];
         const ngUpdatePkgsOptions: ExecOptions = {
-          cwd: this.projectPath
+          cwd: this.projectPath,
         };
         await exec.exec(`"${ngExec}"`, ['update', ...ngUpdatePkgsArgs], ngUpdatePkgsOptions);
       }
@@ -74,5 +72,4 @@ export class NgUpdateService {
 
     return { packages: [], ngUpdateOutput, ngUpdateErrorOutput };
   }
-
 }

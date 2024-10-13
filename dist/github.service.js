@@ -35,7 +35,7 @@ class GithubService {
             owner: this.owner,
             repo: this.repo,
             state: 'open',
-            base
+            base,
         });
         return (_a = res.data.filter(pr => pr.head.ref === head)[0]) === null || _a === void 0 ? void 0 : _a.number;
     }
@@ -44,21 +44,23 @@ class GithubService {
             owner: this.owner,
             repo: this.repo,
             state: 'closed',
-            base
+            base,
         });
         return res.data
             .filter(pr => !pr.locked)
             .filter(pr => pr.head.ref.indexOf(branchPrefix) >= 0 || pr.title === title)
             .map(pr => pr.head.ref);
     }
-    async deleteClosedPRsBranches(base, title, branchPrefix) {
+    async deleteClosedPRsBranches(base, title, branchPrefix, ignore) {
         const branches = await this.getClosedPRsBranches(base, title, branchPrefix);
         for (const branch of branches) {
+            if (branch === ignore)
+                continue;
             try {
                 const res = await this.gbClient.rest.git.deleteRef({
                     owner: this.owner,
                     repo: this.repo,
-                    ref: `heads/${branch}`
+                    ref: `heads/${branch}`,
                 });
                 if (res.status === 204)
                     core.info(`🤖 >> Branch '${branch}' has been deleted`);
@@ -79,7 +81,7 @@ class GithubService {
                 base,
                 maintainer_can_modify: false,
                 title,
-                body
+                body,
             });
             const prNumber = createdPR.data.number;
             core.info(`🤖 Created pull request [${this.repoPath}]#${prNumber}`);
@@ -89,7 +91,7 @@ class GithubService {
                 issue_number: prNumber,
                 assignees,
                 labels,
-                body
+                body,
             });
             await this.addReviewers(prNumber, reviewers);
             core.info(`🤖 Updated pull request [${this.repoPath}]#${prNumber}`);
@@ -108,7 +110,7 @@ class GithubService {
             owner: this.owner,
             repo: this.repo,
             pull_number: prNumber,
-            reviewers
+            reviewers,
         });
     }
 }

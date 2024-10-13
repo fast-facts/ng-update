@@ -29,7 +29,7 @@ class Helpers {
                 return;
         }
         const options = {
-            cwd: projectPath
+            cwd: projectPath,
         };
         const useYarn = await Helpers.isFileExists(path.join(projectPath, 'yarn.lock'));
         await (useYarn ? exec.exec('yarn', ['install'], options) : exec.exec('npm', ['ci'], options));

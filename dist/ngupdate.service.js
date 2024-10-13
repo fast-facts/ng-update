@@ -23,9 +23,9 @@ class NgUpdateService {
         const ngUpdateOptions = {
             listeners: {
                 stdout: (data) => ngUpdateOutput += data.toString(),
-                stderr: (data) => ngUpdateErrorOutput = data.toString()
+                stderr: (data) => ngUpdateErrorOutput = data.toString(),
             },
-            cwd: this.projectPath
+            cwd: this.projectPath,
         };
         const npmRegistry = core.getInput('npm-registry');
         const ngUpdateArgs = npmRegistry ? [`registry=${npmRegistry}`] : [];
@@ -48,7 +48,7 @@ class NgUpdateService {
                 core.info(`🤖 Updating outdated ng dependencies: ${pkgsToUpdate.map(p => `'${p.name}'`)}`);
                 const ngUpdatePkgsArgs = [...ngUpdateArgs, '--allow-dirty', ...(pkgsToUpdate.map(p => `${p.name}@${p.newVersion}`))];
                 const ngUpdatePkgsOptions = {
-                    cwd: this.projectPath
+                    cwd: this.projectPath,
                 };
                 await exec.exec(`"${ngExec}"`, ['update', ...ngUpdatePkgsArgs], ngUpdatePkgsOptions);
             }

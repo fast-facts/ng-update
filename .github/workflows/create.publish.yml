@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 3
 
       - name: Publish Action
-        uses: technote-space/release-github-actions@v1
+        uses: technote-space/release-github-actions@v8
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_NAME: ng-update[bot]

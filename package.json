@@ -35,7 +35,7 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@types/node": "^22.9.1",
+    "@types/node": "^22.9.3",
     "@types/object-hash": "^3.0.6",
     "chai": "^4.5.0",
     "eslint": "^9.15.0",

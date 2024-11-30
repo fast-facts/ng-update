@@ -13,8 +13,6 @@ updates:
     ignore:
       - dependency-name: 'chai'
         versions: ['>=5.0.0']
-      - dependency-name: 'typescript'
-        versions: ['>=5.6.0']
     groups:
       typescript and eslint:
         patterns:

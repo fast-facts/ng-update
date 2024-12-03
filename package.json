@@ -42,7 +42,7 @@
     "eslint-config-final": "^1.4.15",
     "mocha": "^10.8.2",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.16.0"
+    "typescript-eslint": "^8.17.0"
   },
   "release": {
     "plugins": [

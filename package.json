@@ -38,11 +38,9 @@
     "@types/node": "^22.10.1",
     "@types/object-hash": "^3.0.6",
     "chai": "^4.5.0",
-    "eslint": "^9.16.0",
     "eslint-config-final": "^1.4.15",
     "mocha": "^11.0.1",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0"
+    "typescript": "^5.7.2"
   },
   "release": {
     "plugins": [

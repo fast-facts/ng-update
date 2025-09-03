@@ -39,7 +39,7 @@
     "@types/object-hash": "^3.0.6",
     "chai": "^4.5.0",
     "eslint-config-final": "^1.6.11",
-    "mocha": "^11.7.1",
+    "mocha": "^11.7.2",
     "typescript": "^5.9.2"
   },
   "release": {

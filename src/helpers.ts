@@ -2,7 +2,7 @@ import * as exec from '@actions/exec';
 import * as path from 'path';
 import * as fs from 'fs';
 
-import * as hash from 'object-hash';
+import hash from 'object-hash';
 import { exists } from '@actions/io/lib/io-util';
 import { ExecOptions } from '@actions/exec/lib/interfaces';
 

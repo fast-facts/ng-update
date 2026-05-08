@@ -1,15 +1,20 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "dist",
-    "rootDir": "./src",
     "lib": [
       "ES2018",
       "dom"
+    ],
+    "types": [
+      "node",
+      "mocha"
     ],
     "module": "commonjs",
     "target": "ES2018",
     "declaration": true,
     "declarationMap": true,
+    "esModuleInterop": true,
     "importHelpers": true,
     "inlineSources": true,
     "noEmitHelpers": true,

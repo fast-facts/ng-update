@@ -50,14 +50,14 @@
         },
         {
             "groupName": "typescript and eslint",
-            "matchPackagePatterns": [
+            "matchPackageNames": [
                 "*typescript*",
                 "*eslint*"
             ]
         },
         {
             "groupName": "types",
-            "matchPackagePatterns": [
+            "matchPackageNames": [
                 "@types/*"
             ]
         }
